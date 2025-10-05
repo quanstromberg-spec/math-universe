@@ -3,441 +3,898 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Math Game Wireframe</title>
+  <title>Math Universe</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Sigmar&display=swap" rel="stylesheet">
+
   <style>
+    /* ========== CSS VARIABLES ========== */
     :root {
-      color-scheme: light;
-      font-family: Arial, Helvetica, sans-serif;
+      /* Colors */
+      --primary-blue: #4A9FE8;
+      --primary-blue-hover: #3A8FD8;
+      --primary-blue-light: #E8F4FD;
+      --success-green: #4CAF50;
+      --success-green-hover: #45A049;
+      --warning-orange: #FF9800;
+      --error-red: #F44336;
+      --purple-accent: #9C27B0;
+
+      --bg-main: #F5F7FA;
+      --bg-card: #FFFFFF;
+      --border-default: #E0E4E8;
+      --border-hover: #C8CDD2;
+      --text-primary: #1F2937;
+      --text-secondary: #6B7280;
+      --text-muted: #9CA3AF;
+
+      /* Typography */
+      --font-heading: 'Sigmar', 'Comic Sans MS', 'Chalkboard SE', cursive, sans-serif;
+      --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+      /* Spacing */
+      --space-xs: 4px;
+      --space-sm: 8px;
+      --space-md: 16px;
+      --space-lg: 24px;
+      --space-xl: 32px;
+      --space-2xl: 48px;
+      --space-3xl: 64px;
+
+      /* Border Radius */
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 24px;
+      --radius-full: 9999px;
+
+      /* Shadows */
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+      --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.10);
+      --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.12);
+      --shadow-xl: 0 16px 32px rgba(0, 0, 0, 0.15);
+      --shadow-2xl: 0 24px 48px rgba(0, 0, 0, 0.18);
+
+      /* Transitions */
+      --transition-fast: 0.15s;
+      --transition-base: 0.2s;
+      --transition-slow: 0.3s;
     }
+
+    /* ========== RESET & BASE ========== */
     * {
       box-sizing: border-box;
-    }
-    body {
       margin: 0;
-      background: #f2f2f2;
-      color: #1a1a1a;
+      padding: 0;
     }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg-main);
+      color: var(--text-primary);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: var(--font-heading);
+      line-height: 1.3;
+      letter-spacing: 0.02em;
+    }
+
+    /* ========== LAYOUT ========== */
     .app {
-      display: grid;
-      grid-template-columns: 260px 1fr;
       min-height: 100vh;
     }
-    .sidebar {
-      background: #fafafa;
-      border-right: 1px solid #d0d0d0;
-      padding: 24px;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-    .sidebar h1 {
-      margin: 0;
-      font-size: 18px;
-      letter-spacing: 0.5px;
-    }
-    .sidebar nav {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    .sidebar button {
-      padding: 8px 12px;
-      border: 1px solid #b5b5b5;
-      background: #ffffff;
-      text-align: left;
-      font-size: 14px;
-      cursor: pointer;
-    }
-    .sidebar button:focus,
-    .sidebar button:hover {
-      outline: none;
-      border-color: #8c8c8c;
-    }
-    .current-route {
-      font-size: 12px;
-      color: #555555;
-    }
+
     main {
-      padding: 32px;
+      padding: var(--space-xl);
       display: flex;
       flex-direction: column;
-      gap: 24px;
+      gap: var(--space-lg);
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
     }
+
+    /* ========== SCREEN MANAGEMENT ========== */
     .screen {
       display: none;
       flex-direction: column;
-      gap: 16px;
+      gap: var(--space-lg);
+      animation: fadeIn 0.3s ease;
     }
+
     .screen.active {
       display: flex;
     }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ========== PANELS & CARDS ========== */
     .panel {
-      background: #ffffff;
-      border: 1px solid #c4c4c4;
-      padding: 16px;
+      background: transparent;
+      border: none;
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+      box-shadow: none;
+    }
+
+    .panel h2 {
+      font-size: 32px;
+      font-weight: 600;
+      margin-bottom: var(--space-lg);
+      color: var(--text-primary);
+    }
+
+    .panel h3 {
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: var(--space-md);
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 2px solid var(--border-default);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: var(--space-md);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      transition: all var(--transition-slow);
     }
-    .panel h2,
-    .panel h3 {
-      margin: 0;
-      font-size: 16px;
+
+    .card:hover {
+      border-color: var(--primary-blue);
+      box-shadow: 0 8px 20px rgba(74, 159, 232, 0.15);
+      transform: translateY(-4px);
     }
-    .layout-row {
-      display: flex;
-      gap: 16px;
-      flex-wrap: wrap;
+
+    .card strong {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-primary);
     }
+
+    .card span {
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+
+    /* ========== DIFFICULTY CARDS ========== */
+    .difficulty-card {
+      background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+      border: none;
+      color: white;
+      padding: var(--space-md);
+      border-radius: var(--radius-md);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.10);
+    }
+
+    .difficulty-card.medium {
+      background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+    }
+
+    .difficulty-card.hard {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    /* ========== GRID SYSTEM ========== */
     .grid {
       display: grid;
-      gap: 12px;
+      gap: var(--space-md);
     }
+
     .grid.columns-2 {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: repeat(2, 1fr);
     }
+
     .grid.columns-3 {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(3, 1fr);
     }
-    .card {
-      border: 1px dashed #a0a0a0;
-      padding: 12px;
+
+    .grid.columns-4 {
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .layout-row {
       display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    .card strong {
-      font-size: 14px;
-    }
-    .action {
-      border: 1px solid #707070;
-      background: #f9f9f9;
-      padding: 8px 10px;
-      font-size: 13px;
-      cursor: pointer;
-    }
-    .action.muted {
-      border-style: dashed;
-      color: #777777;
-    }
-    .header-bar {
-      background: #ffffff;
-      border: 1px solid #c4c4c4;
-      padding: 16px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 16px;
+      gap: var(--space-md);
       flex-wrap: wrap;
     }
-    .exercise-header {
-      flex-direction: column;
-      align-items: center;
-      gap: 12px;
+
+    /* ========== BUTTONS ========== */
+    .btn {
+      font-family: var(--font-body);
+      font-size: 16px;
+      font-weight: 600;
+      padding: 12px 32px;
+      border-radius: var(--radius-md);
+      border: none;
+      cursor: pointer;
+      transition: all var(--transition-base);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.10);
     }
-    .exercise-header .avatar-placeholder {
-      margin: 0 auto;
+
+    .btn:hover {
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+      transform: translateY(-2px);
     }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .btn-primary {
+      background: var(--primary-blue);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-blue-hover);
+    }
+
+    .btn-secondary {
+      background: var(--bg-card);
+      color: var(--primary-blue);
+      border: 2px solid var(--primary-blue);
+    }
+
+    .btn-secondary:hover {
+      background: var(--primary-blue-light);
+    }
+
+    .btn-success {
+      background: var(--success-green);
+      color: white;
+    }
+
+    .btn-success:hover {
+      background: var(--success-green-hover);
+    }
+
+    .btn-large {
+      padding: 16px 48px;
+      font-size: 20px;
+      border-radius: var(--radius-lg);
+    }
+
+    .btn-small {
+      padding: 8px 20px;
+      font-size: 14px;
+      border-radius: var(--radius-sm);
+    }
+
+    .btn.muted {
+      background: var(--border-default);
+      color: var(--text-muted);
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    .btn.muted:hover {
+      transform: none;
+      box-shadow: none;
+    }
+
+    .action {
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 600;
+      padding: 10px 24px;
+      border-radius: var(--radius-md);
+      border: none;
+      background: var(--primary-blue);
+      color: white;
+      cursor: pointer;
+      transition: all var(--transition-base);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.10);
+    }
+
+    .action:hover {
+      background: var(--primary-blue-hover);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+      transform: translateY(-2px);
+    }
+
+    .action.muted {
+      background: var(--border-default);
+      color: var(--text-muted);
+      cursor: not-allowed;
+    }
+
+    .action.muted:hover {
+      transform: none;
+    }
+
+    /* ========== INPUTS ========== */
+    input[type="text"],
+    input[type="password"],
+    input[type="number"] {
+      font-family: var(--font-body);
+      font-size: 16px;
+      padding: 12px 16px;
+      border: 2px solid var(--border-default);
+      border-radius: var(--radius-sm);
+      background: var(--bg-card);
+      transition: all var(--transition-base);
+      color: var(--text-primary);
+      width: 100%;
+      max-width: 400px;
+    }
+
+    input[type="text"]:focus,
+    input[type="password"]:focus,
+    input[type="number"]:focus {
+      outline: none;
+      border-color: var(--primary-blue);
+      box-shadow: 0 0 0 3px rgba(74, 159, 232, 0.1);
+    }
+
+    /* Hide number input arrows/spinners */
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    input[type="number"] {
+      -moz-appearance: textfield;
+      appearance: textfield;
+    }
+
+    /* ========== PROGRESS BARS ========== */
+    .progress {
+      width: 100%;
+      height: 12px;
+      background: var(--border-default);
+      border-radius: var(--radius-full);
+      overflow: hidden;
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .progress span {
+      display: block;
+      height: 100%;
+      background: linear-gradient(90deg, #4A9FE8 0%, #667eea 100%);
+      border-radius: var(--radius-full);
+      transition: width 0.3s ease;
+    }
+
     .progress-block {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 6px;
+      gap: var(--space-sm);
       width: 100%;
     }
+
     .question-progress {
       width: 100%;
-      max-width: 320px;
-      margin: 12px auto 0;
+      max-width: 400px;
+      margin-top: var(--space-md);
     }
+
+    /* ========== AVATARS ========== */
     .avatar-placeholder {
       width: 192px;
       height: 192px;
-      border: none;
+      border-radius: var(--radius-lg);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 12px;
       background: transparent;
+      overflow: hidden;
     }
-    @keyframes flip {
-      0% {
-        transform: rotateY(0deg);
-      }
-      100% {
-        transform: rotateY(360deg);
-      }
-    }
-    .avatar-flip {
-      animation: flip 0.6s ease-in-out;
-    }
-    .custom-modal {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.5);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-    }
-    .modal-content {
-      background: white;
-      padding: 32px;
-      border-radius: 8px;
-      text-align: center;
-      min-width: 300px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-    .modal-content p {
-      margin: 0 0 24px 0;
-      font-size: 18px;
-      font-weight: 600;
-    }
-    .modal-content button {
-      padding: 10px 32px;
-      font-size: 16px;
-      background: #2b2b2b;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    .modal-content button:hover {
-      background: #4d4d4d;
-    }
-    .stat-block {
-      border: 1px solid #b3b3b3;
-      padding: 8px 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      font-size: 13px;
-      min-width: 140px;
-    }
-    .progress {
-      border: 1px solid #4d4d4d;
-      height: 12px;
-      position: relative;
-      background: #ffffff;
-    }
-    .progress span {
-      display: block;
+
+    .avatar-placeholder img {
+      width: 100%;
       height: 100%;
-      background: #2b2b2b;
-      width: 50%;
+      object-fit: contain;
     }
+
+    /* ========== EXERCISE SCREENS ========== */
+    .header-bar {
+      background: var(--bg-card);
+      border: 2px solid var(--border-default);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .exercise-header {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .header-bar.exercise-header {
+      background: transparent;
+      border: none;
+      box-shadow: none;
+    }
+
     .question-area {
-      border: 2px solid #1a1a1a;
-      padding: 24px;
-      font-size: 24px;
+      background: linear-gradient(135deg, #E8F4FD 0%, #F5F7FA 100%);
+      border: 3px solid var(--primary-blue);
+      border-radius: var(--radius-lg);
+      padding: var(--space-2xl);
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: var(--space-lg);
       align-items: center;
       justify-content: center;
       text-align: center;
+      box-shadow: 0 4px 16px rgba(74, 159, 232, 0.12);
     }
+
     .problem-text {
-      letter-spacing: 1px;
+      font-family: var(--font-body);
+      font-size: 36px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      color: var(--text-primary);
     }
+
     .problem-helpers {
       display: flex;
-      gap: 12px;
+      gap: var(--space-md);
       align-items: center;
       flex-wrap: wrap;
       justify-content: center;
     }
+
     .icon-group {
       display: flex;
-      gap: 6px;
+      gap: var(--space-sm);
       flex-wrap: wrap;
       justify-content: center;
     }
+
     .icon-group.column {
       flex-direction: column;
       align-items: center;
     }
+
     .operator {
-      font-size: 18px;
-      padding: 0 4px;
+      font-family: var(--font-body);
+      font-size: 28px;
+      font-weight: 700;
+      padding: 0 var(--space-sm);
+      color: var(--primary-blue);
     }
+
+    .helper-icon {
+      width: 48px;
+      height: 48px;
+      border: 2px solid var(--primary-blue);
+      border-radius: var(--radius-sm);
+      background: var(--primary-blue-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--primary-blue);
+      box-shadow: 0 2px 4px rgba(74, 159, 232, 0.15);
+    }
+
     .helper-icons {
       display: flex;
-      gap: 8px;
+      gap: var(--space-sm);
       justify-content: center;
     }
-    .helper-icon {
-      width: 32px;
-      height: 32px;
-      border: 1px solid #7a7a7a;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 11px;
-      background: #f8f8f8;
-    }
+
+    /* ========== FORMS ========== */
     form {
       display: flex;
-      gap: 12px;
+      gap: var(--space-md);
       justify-content: center;
       align-items: center;
       flex-wrap: wrap;
     }
-    input[type="text"],
-    input[type="password"],
-    input[type="number"] {
-      border: 1px solid #7a7a7a;
-      padding: 8px;
-      min-width: 160px;
-      background: #ffffff;
+
+    form input[type="number"] {
+      font-family: var(--font-body);
+      font-size: 24px;
+      font-weight: 600;
+      text-align: center;
+      width: 200px;
+      border: 3px solid var(--primary-blue);
+      border-radius: var(--radius-md);
     }
-    .feedback {
+
+    /* ========== MODALS ========== */
+    .custom-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(4px);
       display: flex;
-      gap: 16px;
       justify-content: center;
-      flex-wrap: wrap;
-      font-size: 13px;
+      align-items: center;
+      z-index: 1000;
+      animation: fadeIn 0.2s ease;
     }
+
+    .modal-content {
+      background: var(--bg-card);
+      padding: var(--space-2xl);
+      border-radius: 20px;
+      text-align: center;
+      min-width: 400px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.20);
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .modal-content p {
+      margin: 0 0 var(--space-lg) 0;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-primary);
+      font-family: var(--font-heading);
+    }
+
+    .modal-content button {
+      padding: 12px 48px;
+      font-size: 18px;
+      font-weight: 600;
+      background: var(--primary-blue);
+      color: white;
+      border: none;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: all var(--transition-base);
+    }
+
+    .modal-content button:hover {
+      background: var(--primary-blue-hover);
+      transform: scale(1.05);
+    }
+
+    /* ========== BREADCRUMB ========== */
+    .breadcrumb {
+      font-size: 14px;
+      color: var(--text-secondary);
+      display: flex;
+      gap: var(--space-sm);
+      flex-wrap: wrap;
+      padding: var(--space-md);
+      background: transparent;
+      border-radius: var(--radius-sm);
+      box-shadow: none;
+    }
+
+    .breadcrumb span {
+      font-weight: 500;
+    }
+
+    .breadcrumb span::after {
+      content: "/";
+      margin-left: var(--space-sm);
+      color: var(--text-muted);
+    }
+
+    .breadcrumb span:last-child::after {
+      content: "";
+    }
+
+    /* Icon breadcrumbs - no separator */
+    .breadcrumb span.breadcrumb-icon::after {
+      content: "" !important;
+      margin-left: 0;
+    }
+
+    .breadcrumb-icon img {
+      display: block;
+      transition: transform var(--transition-base);
+    }
+
+    .breadcrumb-link.breadcrumb-icon {
+      cursor: pointer;
+    }
+
+    .breadcrumb-icon:hover img {
+      transform: scale(1.2);
+    }
+
+    .breadcrumb-link {
+      color: var(--primary-blue);
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .breadcrumb-link:hover {
+      text-decoration: none;
+    }
+
+    .home-breadcrumb {
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* ========== LISTS ========== */
     .list {
       list-style: none;
       padding: 0;
       margin: 0;
       display: flex;
       flex-direction: column;
-      gap: 8px;
-      font-size: 13px;
+      gap: var(--space-sm);
+      font-size: 14px;
     }
-    .breadcrumb {
-      font-size: 12px;
-      color: #555555;
+
+    .list li {
+      padding: var(--space-sm) var(--space-md);
+      background: var(--bg-main);
+      border-radius: var(--radius-sm);
+      border-left: 3px solid var(--primary-blue);
+    }
+
+    /* ========== ANIMATIONS ========== */
+    @keyframes flip {
+      0% { transform: rotateY(0deg); }
+      100% { transform: rotateY(360deg); }
+    }
+
+    .avatar-flip {
+      animation: flip 0.6s ease-in-out;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    @keyframes starPop {
+      0% {
+        transform: scale(0) rotate(0deg);
+        opacity: 0;
+      }
+      50% {
+        transform: scale(1.2) rotate(180deg);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(1) rotate(360deg);
+        opacity: 1;
+      }
+    }
+
+    /* ========== LOGIN PAGE SPECIFIC ========== */
+    .login-container {
+      max-width: 600px;
+      margin: 0 auto;
       display: flex;
-      gap: 4px;
-      flex-wrap: wrap;
+      flex-direction: column;
+      gap: var(--space-2xl);
+      padding: var(--space-2xl);
     }
-    .breadcrumb span::after {
-      content: "/";
-      margin-left: 4px;
-      color: #a0a0a0;
+
+    .welcome-section {
+      text-align: center;
+      padding: var(--space-xl);
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: var(--radius-xl);
+      color: white;
+      box-shadow: var(--shadow-lg);
     }
-    .breadcrumb span:last-child::after {
-      content: "";
+
+    .welcome-section h1 {
+      font-size: 48px;
+      margin: 0 0 var(--space-sm) 0;
+      font-weight: 700;
     }
-    .breadcrumb-link {
+
+    .welcome-section h2 {
+      font-size: 28px;
+      margin: 0;
+      font-weight: 400;
+      opacity: 0.9;
+    }
+
+    .name-input-section {
+      text-align: center;
+    }
+
+    .name-input-section h3 {
+      font-size: 24px;
+      margin: 0 0 var(--space-md) 0;
+      font-weight: 600;
+    }
+
+    .avatar-selection-section {
+      text-align: center;
+    }
+
+    .avatar-selection-section h3 {
+      font-size: 24px;
+      margin: 0 0 var(--space-lg) 0;
+      font-weight: 600;
+    }
+
+    .avatar-card {
+      background: var(--bg-card);
+      border: 3px solid transparent;
+      border-radius: var(--radius-lg);
+      padding: var(--space-md);
       cursor: pointer;
-      text-decoration: underline;
+      transition: all var(--transition-slow);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     }
-    .home-breadcrumb {
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: nowrap;
+
+    .avatar-card:hover {
+      border-color: var(--primary-blue);
+      transform: translateY(-8px);
+      box-shadow: 0 12px 24px rgba(74, 159, 232, 0.2);
+    }
+
+    .avatar-card.selected {
+      border-color: var(--primary-blue);
+      background: var(--primary-blue-light);
+    }
+
+    .avatar-card img {
       width: 100%;
+      height: 150px;
+      object-fit: contain;
+      margin-bottom: var(--space-sm);
     }
-    .home-breadcrumb span {
-      flex: 0 0 auto;
+
+    .avatar-card div {
+      text-align: center;
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 16px;
+      color: var(--text-primary);
     }
-    @media (max-width: 900px) {
-      .app {
+
+    /* ========== RESPONSIVE ========== */
+    @media (max-width: 1024px) {
+      .grid.columns-3 {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 640px) {
+      main {
+        padding: var(--space-md);
+      }
+
+      .grid.columns-2,
+      .grid.columns-3 {
         grid-template-columns: 1fr;
       }
-      .sidebar {
-        border-right: none;
-        border-bottom: 1px solid #d0d0d0;
+
+      .card {
+        padding: var(--space-md);
       }
+
+      .problem-text {
+        font-size: 28px;
+      }
+
+      .avatar-placeholder {
+        width: 128px;
+        height: 128px;
+      }
+
+      .modal-content {
+        min-width: 300px;
+        padding: var(--space-lg);
+      }
+
+      .welcome-section h1 {
+        font-size: 36px;
+      }
+
+      .welcome-section h2 {
+        font-size: 20px;
+      }
+    }
+
+    /* ========== STAT BLOCKS ========== */
+    .stat-block {
+      border: 2px solid var(--border-default);
+      border-radius: var(--radius-md);
+      padding: var(--space-md);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+      font-size: 14px;
+      min-width: 200px;
+      background: var(--bg-card);
+      box-shadow: var(--shadow-sm);
     }
   </style>
 </head>
 <body>
   <div class="app">
-    <aside class="sidebar">
-      <h1>Routes</h1>
-      <div class="current-route" id="current-route">Current: /login</div>
-      <nav>
-        <button data-route="/login">/login</button>
-        <button data-route="/home">/home</button>
-        <button data-route="/home/addition">/home/addition</button>
-        <button data-route="/home/addition/easy">/home/addition/easy</button>
-        <button data-route="/home/addition/medium">/home/addition/medium</button>
-        <button data-route="/home/addition/hard">/home/addition/hard</button>
-        <button data-route="/home/subtraction">/home/subtraction</button>
-        <button data-route="/home/subtraction/easy">/home/subtraction/easy</button>
-        <button data-route="/home/subtraction/medium">/home/subtraction/medium</button>
-        <button data-route="/home/subtraction/hard">/home/subtraction/hard</button>
-        <button data-route="/home/multiplication">/home/multiplication</button>
-        <button data-route="/home/multiplication/easy">/home/multiplication/easy</button>
-        <button data-route="/home/multiplication/medium">/home/multiplication/medium</button>
-        <button data-route="/home/multiplication/hard">/home/multiplication/hard</button>
-        <button data-route="/home/division">/home/division</button>
-        <button data-route="/home/division/easy">/home/division/easy</button>
-        <button data-route="/home/division/medium">/home/division/medium</button>
-        <button data-route="/home/division/hard">/home/division/hard</button>
-        <button data-route="/settings">Settings</button>
-        <button data-route="/settings/avatar">Settings / Avatar</button>
-        <button data-route="/settings/icons">Settings / Icons</button>
-        <button data-route="/settings/stats">Settings / Stats</button>
-      </nav>
-    </aside>
     <main>
+      <!-- LOGIN SCREEN -->
       <section class="screen active" data-screen="/login">
-        <div style="max-width: 600px; margin: 0 auto; display: flex; flex-direction: column; gap: 32px; padding: 32px;">
-
+        <div class="login-container">
           <!-- Section 1: Welcome -->
-          <div style="text-align: center;">
-            <h1 style="font-size: 32px; margin: 0 0 8px 0;">Hi there! 👋</h1>
-            <h2 style="font-size: 24px; margin: 0; font-weight: normal;">Welcome to Math Universe</h2>
+          <div class="welcome-section">
+            <h1>Hi there! 👋</h1>
+            <h2>Welcome to Math Universe</h2>
           </div>
 
           <!-- Section 2: Name Input -->
-          <div style="text-align: center;">
-            <label style="display: block; font-size: 18px; margin-bottom: 12px; font-weight: 600;">What's your name?</label>
-            <input type="text" id="user-name-input" placeholder="Enter your name" style="width: 100%; max-width: 400px; padding: 12px; font-size: 16px; border: 1px solid #7a7a7a; border-radius: 4px;" />
+          <div class="name-input-section">
+            <h3>What's your name?</h3>
+            <input type="text" id="user-name-input" placeholder="Enter your name" />
           </div>
 
           <!-- Section 3: Choose Avatar -->
-          <div style="text-align: center;">
-            <h3 style="font-size: 20px; margin: 0 0 16px 0;">Choose your Avatar</h3>
-            <div class="grid columns-3" id="intro-avatar-selection" style="max-width: 500px; margin: 0 auto;">
-              <div class="card" style="cursor: pointer;" data-avatar="images/roblox.png">
-                <img src="images/roblox.png" alt="Roblox Avatar" style="width: 100%; height: 150px; object-fit: contain; border: 3px solid #2b2b2b;">
-                <div style="text-align: center; margin-top: 8px; font-weight: 600;">Roblox</div>
+          <div class="avatar-selection-section">
+            <h3>Choose your Avatar</h3>
+            <div class="grid columns-3" id="intro-avatar-selection">
+              <div class="avatar-card selected" data-avatar="images/roblox.png">
+                <img src="images/roblox.png" alt="Roblox Avatar">
+                <div>Roblox</div>
               </div>
-              <div class="card" style="cursor: pointer;" data-avatar="images/minecraft.png">
-                <img src="images/minecraft.png" alt="Minecraft Avatar" style="width: 100%; height: 150px; object-fit: contain; border: 3px solid transparent;">
-                <div style="text-align: center; margin-top: 8px; font-weight: 600;">Minecraft</div>
+              <div class="avatar-card" data-avatar="images/minecraft.png">
+                <img src="images/minecraft.png" alt="Minecraft Avatar">
+                <div>Minecraft</div>
               </div>
-              <div class="card" style="cursor: pointer;" data-avatar="images/Bamse.png">
-                <img src="images/Bamse.png" alt="Bamse Avatar" style="width: 100%; height: 150px; object-fit: contain; border: 3px solid transparent;">
-                <div style="text-align: center; margin-top: 8px; font-weight: 600;">Bamse</div>
+              <div class="avatar-card" data-avatar="images/Bamse.png">
+                <img src="images/Bamse.png" alt="Bamse Avatar">
+                <div>Bamse</div>
               </div>
             </div>
           </div>
 
           <!-- Section 4: Get Started Button -->
           <div style="text-align: center;">
-            <button id="get-started-btn" class="action" style="padding: 16px 48px; font-size: 20px; background: #2b2b2b; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">
+            <button id="get-started-btn" class="btn btn-primary btn-large">
               Let's Get Started! 🚀
             </button>
           </div>
-
         </div>
       </section>
 
+      <!-- HOME SCREEN -->
       <section class="screen" data-screen="/home">
-        <div class="breadcrumb home-breadcrumb"><span>home</span><span data-route="/settings" class="breadcrumb-link">Settings</span></div>
-        <div class="header-bar" style="flex-direction: column; align-items: center; text-align: center;">
-          <div class="avatar-placeholder" style="width: 192px; height: 192px; border: none; background: transparent;">Avatar</div>
-          <div style="margin-top: 16px;">
-            <div style="font-size: 18px; font-weight: 600;">Welcome to the Math Universe!</div>
-            <div style="font-size: 14px; color: #555; margin-top: 4px;">Choose a math adventure</div>
+        <div class="breadcrumb home-breadcrumb">
+          <span data-route="/home" class="breadcrumb-link breadcrumb-icon" style="font-family: var(--font-heading); color: #4a9fe8; font-size: 20px; font-weight: 700;">Math Universe</span>
+          <span data-route="/settings" class="breadcrumb-link breadcrumb-icon"><img src="icons/setting.svg" alt="settings" style="width: 30px; height: 30px; vertical-align: middle;"></span>
+        </div>
+
+        <div class="header-bar exercise-header">
+          <div class="avatar-placeholder">Avatar</div>
+          <div style="margin-top: var(--space-md);">
+            <div style="font-size: 32px; font-weight: 700; font-family: var(--font-heading);">Hi </div>
           </div>
         </div>
+
         <div class="panel">
-          <h2>Select a Section</h2>
+          <h3>Choose a math adventure!</h3>
           <div class="grid columns-2">
             <div class="card">
-              <strong>Addition (Plus)</strong>
+              <strong>Addition <img src="icons/plus.svg" alt="plus" style="width: 24px; height: 24px; vertical-align: middle; display: inline-block;"></strong>
               <span>Practice combining numbers.</span>
               <div class="grid columns-3">
                 <button class="action" data-route="/home/addition/easy">Easy</button>
@@ -445,8 +902,9 @@
                 <button class="action" data-route="/home/addition/hard">Hard</button>
               </div>
             </div>
+
             <div class="card">
-              <strong>Subtraction (Minus)</strong>
+              <strong>Subtraction <img src="icons/minus.svg" alt="minus" style="width: 24px; height: 24px; vertical-align: middle; display: inline-block;"></strong>
               <span>Practice taking away.</span>
               <div class="grid columns-3">
                 <button class="action" data-route="/home/subtraction/easy">Easy</button>
@@ -454,8 +912,9 @@
                 <button class="action" data-route="/home/subtraction/hard">Hard</button>
               </div>
             </div>
+
             <div class="card">
-              <strong>Multiplication (Multiple)</strong>
+              <strong>Multiplication <img src="icons/multiple.svg" alt="multiply" style="width: 24px; height: 24px; vertical-align: middle; display: inline-block;"></strong>
               <span>Practice repeated addition.</span>
               <div class="grid columns-3">
                 <button class="action" data-route="/home/multiplication/easy">Easy</button>
@@ -463,21 +922,26 @@
                 <button class="action" data-route="/home/multiplication/hard">Hard</button>
               </div>
             </div>
+
             <div class="card">
-              <strong>Division (Divide)</strong>
+              <strong>Division <img src="icons/devide.svg" alt="divide" style="width: 24px; height: 24px; vertical-align: middle; display: inline-block;"></strong>
               <span>Practice sharing equally.</span>
               <div class="grid columns-3">
                 <button class="action" data-route="/home/division/easy">Easy</button>
                 <button class="action" data-route="/home/division/medium">Medium</button>
-                <button class="action muted" data-route="/home/division/hard">Hard (disabled)</button>
+                <button class="action muted" data-route="/home/division/hard">Hard</button>
               </div>
             </div>
           </div>
         </div>
       </section>
 
+      <!-- ADDITION OVERVIEW -->
       <section class="screen" data-screen="/home/addition">
-        <div class="breadcrumb"><span>home</span><span>addition</span></div>
+        <div class="breadcrumb home-breadcrumb">
+          <span data-route="/home" class="breadcrumb-link breadcrumb-icon" style="font-family: var(--font-heading); color: #4a9fe8; font-size: 20px; font-weight: 700;">Math Universe</span>
+          <span data-route="/settings" class="breadcrumb-link breadcrumb-icon"><img src="icons/setting.svg" alt="settings" style="width: 30px; height: 30px; vertical-align: middle;"></span>
+        </div>
         <div class="panel">
           <h2>Addition Levels</h2>
           <ul class="list">
@@ -485,81 +949,110 @@
             <li>Medium: a + b ≤ 15</li>
             <li>Hard: a + b ≤ 100</li>
           </ul>
-          <div class="grid columns-3">
-            <button class="action" data-route="/home/addition/easy">Start Easy</button>
-            <button class="action" data-route="/home/addition/medium">Start Medium</button>
-            <button class="action" data-route="/home/addition/hard">Start Hard</button>
+          <div class="grid columns-3" style="margin-top: var(--space-lg);">
+            <button class="btn btn-success" data-route="/home/addition/easy">Start Easy</button>
+            <button class="btn btn-primary" data-route="/home/addition/medium">Start Medium</button>
+            <button class="btn btn-secondary" data-route="/home/addition/hard">Start Hard</button>
           </div>
         </div>
       </section>
 
+      <!-- ADDITION EASY -->
       <section class="screen" data-screen="/home/addition/easy">
-        <div class="breadcrumb"><span>home</span><span>addition</span><span>easy</span></div>
+        <div class="breadcrumb home-breadcrumb">
+          <span data-route="/home" class="breadcrumb-link breadcrumb-icon" style="font-family: var(--font-heading); color: #4a9fe8; font-size: 20px; font-weight: 700;">Math Universe</span>
+          <span data-route="/settings" class="breadcrumb-link breadcrumb-icon"><img src="icons/setting.svg" alt="settings" style="width: 30px; height: 30px; vertical-align: middle;"></span>
+        </div>
+
         <div class="header-bar exercise-header">
           <div class="avatar-placeholder">Avatar</div>
           <div class="progress-block">
-            <div>Question 7 of 10</div>
-            <div class="progress question-progress"><span style="width: 60%;"></span></div>
+            <div style="font-size: 18px; font-weight: 600;">Question 1 of 10</div>
+            <div class="progress question-progress"><span style="width: 10%;"></span></div>
           </div>
         </div>
+
         <div class="question-area">
           <div class="problem-text">5 + 3 = ( )</div>
           <div class="problem-helpers">
             <div class="icon-group">
-              <div class="helper-icon">Icon</div>
-              <div class="helper-icon">Icon</div>
-              <div class="helper-icon">Icon</div>
-              <div class="helper-icon">Icon</div>
-              <div class="helper-icon">Icon</div>
+              <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
+              <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
+              <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
+              <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
+              <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
             </div>
             <span class="operator">+</span>
             <div class="icon-group">
-              <div class="helper-icon">Icon</div>
-              <div class="helper-icon">Icon</div>
-              <div class="helper-icon">Icon</div>
+              <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
+              <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
+              <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
             </div>
           </div>
         </div>
+
         <form>
           <input type="number" placeholder="Answer" />
-          <button class="action">Submit Answer</button>
+          <button class="btn btn-primary">Submit Answer 🚀</button>
         </form>
       </section>
 
+      <!-- ADDITION MEDIUM -->
       <section class="screen" data-screen="/home/addition/medium">
-        <div class="breadcrumb"><span>home</span><span>addition</span><span>medium</span></div>
-        <div class="header-bar exercise-header">
-          <div class="avatar-placeholder">Avatar</div>
-          <div class="progress-block">
-            <div>Question 4 of 10</div>
-            <div class="progress question-progress"><span style="width: 30%;"></span></div>
-          </div>
+        <div class="breadcrumb home-breadcrumb">
+          <span data-route="/home" class="breadcrumb-link breadcrumb-icon" style="font-family: var(--font-heading); color: #4a9fe8; font-size: 20px; font-weight: 700;">Math Universe</span>
+          <span data-route="/settings" class="breadcrumb-link breadcrumb-icon"><img src="icons/setting.svg" alt="settings" style="width: 30px; height: 30px; vertical-align: middle;"></span>
         </div>
-        <div class="question-area">9 + 5 = ( )</div>
-        <form>
-          <input type="number" placeholder="Answer" />
-          <button class="action">Submit Answer</button>
-        </form>
-      </section>
 
-      <section class="screen" data-screen="/home/addition/hard">
-        <div class="breadcrumb"><span>home</span><span>addition</span><span>hard</span></div>
         <div class="header-bar exercise-header">
           <div class="avatar-placeholder">Avatar</div>
           <div class="progress-block">
-            <div>Question 1 of 10</div>
+            <div style="font-size: 18px; font-weight: 600;">Question 1 of 10</div>
             <div class="progress question-progress"><span style="width: 10%;"></span></div>
           </div>
         </div>
-        <div class="question-area">35 + 47 = ( )</div>
+
+        <div class="question-area">
+          <div class="problem-text">9 + 5 = ( )</div>
+        </div>
+
         <form>
           <input type="number" placeholder="Answer" />
-          <button class="action">Submit Answer</button>
+          <button class="btn btn-primary">Submit Answer 🚀</button>
         </form>
       </section>
 
+      <!-- ADDITION HARD -->
+      <section class="screen" data-screen="/home/addition/hard">
+        <div class="breadcrumb home-breadcrumb">
+          <span data-route="/home" class="breadcrumb-link breadcrumb-icon" style="font-family: var(--font-heading); color: #4a9fe8; font-size: 20px; font-weight: 700;">Math Universe</span>
+          <span data-route="/settings" class="breadcrumb-link breadcrumb-icon"><img src="icons/setting.svg" alt="settings" style="width: 30px; height: 30px; vertical-align: middle;"></span>
+        </div>
+
+        <div class="header-bar exercise-header">
+          <div class="avatar-placeholder">Avatar</div>
+          <div class="progress-block">
+            <div style="font-size: 18px; font-weight: 600;">Question 1 of 10</div>
+            <div class="progress question-progress"><span style="width: 10%;"></span></div>
+          </div>
+        </div>
+
+        <div class="question-area">
+          <div class="problem-text">35 + 47 = ( )</div>
+        </div>
+
+        <form>
+          <input type="number" placeholder="Answer" />
+          <button class="btn btn-primary">Submit Answer 🚀</button>
+        </form>
+      </section>
+
+      <!-- SUBTRACTION OVERVIEW -->
       <section class="screen" data-screen="/home/subtraction">
-        <div class="breadcrumb"><span>home</span><span>subtraction</span></div>
+        <div class="breadcrumb home-breadcrumb">
+          <span data-route="/home" class="breadcrumb-link breadcrumb-icon" style="font-family: var(--font-heading); color: #4a9fe8; font-size: 20px; font-weight: 700;">Math Universe</span>
+          <span data-route="/settings" class="breadcrumb-link breadcrumb-icon"><img src="icons/setting.svg" alt="settings" style="width: 30px; height: 30px; vertical-align: middle;"></span>
+        </div>
         <div class="panel">
           <h2>Subtraction Levels</h2>
           <ul class="list">
@@ -567,86 +1060,115 @@
             <li>Medium: a − b, a and b are two-digit numbers > 20 and > 10</li>
             <li>Hard: a − b − c, a is a two-digit number > 20, result ≥ 0</li>
           </ul>
-          <div class="grid columns-3">
-            <button class="action" data-route="/home/subtraction/easy">Start Easy</button>
-            <button class="action" data-route="/home/subtraction/medium">Start Medium</button>
-            <button class="action" data-route="/home/subtraction/hard">Start Hard</button>
+          <div class="grid columns-3" style="margin-top: var(--space-lg);">
+            <button class="btn btn-success" data-route="/home/subtraction/easy">Start Easy</button>
+            <button class="btn btn-primary" data-route="/home/subtraction/medium">Start Medium</button>
+            <button class="btn btn-secondary" data-route="/home/subtraction/hard">Start Hard</button>
           </div>
         </div>
       </section>
 
+      <!-- SUBTRACTION EASY -->
       <section class="screen" data-screen="/home/subtraction/easy">
-        <div class="breadcrumb"><span>home</span><span>subtraction</span><span>easy</span></div>
+        <div class="breadcrumb home-breadcrumb">
+          <span data-route="/home" class="breadcrumb-link breadcrumb-icon" style="font-family: var(--font-heading); color: #4a9fe8; font-size: 20px; font-weight: 700;">Math Universe</span>
+          <span data-route="/settings" class="breadcrumb-link breadcrumb-icon"><img src="icons/setting.svg" alt="settings" style="width: 30px; height: 30px; vertical-align: middle;"></span>
+        </div>
+
         <div class="header-bar exercise-header">
           <div class="avatar-placeholder">Avatar</div>
           <div class="progress-block">
-            <div>Question 6 of 10</div>
-            <div class="progress question-progress"><span style="width: 50%;"></span></div>
+            <div style="font-size: 18px; font-weight: 600;">Question 1 of 10</div>
+            <div class="progress question-progress"><span style="width: 10%;"></span></div>
           </div>
         </div>
+
         <div class="question-area">
           <div class="problem-text">9 − 4 = ( )</div>
           <div class="problem-helpers">
             <div class="icon-group">
-              <div class="helper-icon">Icon</div>
-              <div class="helper-icon">Icon</div>
-              <div class="helper-icon">Icon</div>
-              <div class="helper-icon">Icon</div>
-              <div class="helper-icon">Icon</div>
-              <div class="helper-icon">Icon</div>
-              <div class="helper-icon">Icon</div>
-              <div class="helper-icon">Icon</div>
-              <div class="helper-icon">Icon</div>
+              <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
+              <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
+              <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
+              <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
+              <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
+              <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
+              <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
+              <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
+              <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
             </div>
             <span class="operator">−</span>
             <div class="icon-group">
-              <div class="helper-icon">Icon</div>
-              <div class="helper-icon">Icon</div>
-              <div class="helper-icon">Icon</div>
-              <div class="helper-icon">Icon</div>
+              <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
+              <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
+              <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
+              <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
             </div>
           </div>
         </div>
+
         <form>
           <input type="number" placeholder="Answer" />
-          <button class="action">Submit Answer</button>
+          <button class="btn btn-primary">Submit Answer 🚀</button>
         </form>
       </section>
 
+      <!-- SUBTRACTION MEDIUM -->
       <section class="screen" data-screen="/home/subtraction/medium">
-        <div class="breadcrumb"><span>home</span><span>subtraction</span><span>medium</span></div>
+        <div class="breadcrumb home-breadcrumb">
+          <span data-route="/home" class="breadcrumb-link breadcrumb-icon" style="font-family: var(--font-heading); color: #4a9fe8; font-size: 20px; font-weight: 700;">Math Universe</span>
+          <span data-route="/settings" class="breadcrumb-link breadcrumb-icon"><img src="icons/setting.svg" alt="settings" style="width: 30px; height: 30px; vertical-align: middle;"></span>
+        </div>
+
         <div class="header-bar exercise-header">
           <div class="avatar-placeholder">Avatar</div>
           <div class="progress-block">
-            <div>Question 3 of 10</div>
-            <div class="progress question-progress"><span style="width: 30%;"></span></div>
+            <div style="font-size: 18px; font-weight: 600;">Question 1 of 10</div>
+            <div class="progress question-progress"><span style="width: 10%;"></span></div>
           </div>
         </div>
-        <div class="question-area">40 − 18 = ( )</div>
+
+        <div class="question-area">
+          <div class="problem-text">40 − 18 = ( )</div>
+        </div>
+
         <form>
           <input type="number" placeholder="Answer" />
-          <button class="action">Submit Answer</button>
+          <button class="btn btn-primary">Submit Answer 🚀</button>
         </form>
       </section>
 
+      <!-- SUBTRACTION HARD -->
       <section class="screen" data-screen="/home/subtraction/hard">
-        <div class="breadcrumb"><span>home</span><span>subtraction</span><span>hard</span></div>
+        <div class="breadcrumb home-breadcrumb">
+          <span data-route="/home" class="breadcrumb-link breadcrumb-icon" style="font-family: var(--font-heading); color: #4a9fe8; font-size: 20px; font-weight: 700;">Math Universe</span>
+          <span data-route="/settings" class="breadcrumb-link breadcrumb-icon"><img src="icons/setting.svg" alt="settings" style="width: 30px; height: 30px; vertical-align: middle;"></span>
+        </div>
+
         <div class="header-bar exercise-header">
           <div class="avatar-placeholder">Avatar</div>
           <div class="progress-block">
-            <div>Question 2 of 10</div>
-            <div class="progress question-progress"><span style="width: 20%;"></span></div>
+            <div style="font-size: 18px; font-weight: 600;">Question 1 of 10</div>
+            <div class="progress question-progress"><span style="width: 10%;"></span></div>
           </div>
         </div>
-        <div class="question-area">60 − 20 − 15 = ( )</div>
+
+        <div class="question-area">
+          <div class="problem-text">60 − 20 − 15 = ( )</div>
+        </div>
+
         <form>
           <input type="number" placeholder="Answer" />
-          <button class="action">Submit Answer</button>
+          <button class="btn btn-primary">Submit Answer 🚀</button>
         </form>
       </section>
 
+      <!-- MULTIPLICATION OVERVIEW -->
       <section class="screen" data-screen="/home/multiplication">
-        <div class="breadcrumb"><span>home</span><span>multiplication</span></div>
+        <div class="breadcrumb home-breadcrumb">
+          <span data-route="/home" class="breadcrumb-link breadcrumb-icon" style="font-family: var(--font-heading); color: #4a9fe8; font-size: 20px; font-weight: 700;">Math Universe</span>
+          <span data-route="/settings" class="breadcrumb-link breadcrumb-icon"><img src="icons/setting.svg" alt="settings" style="width: 30px; height: 30px; vertical-align: middle;"></span>
+        </div>
         <div class="panel">
           <h2>Multiplication Levels</h2>
           <ul class="list">
@@ -654,79 +1176,108 @@
             <li>Medium: a × b, a and b ∈ [6, 9]</li>
             <li>Hard: a × b, a ∈ [10, 99] (two-digit multiples of ten), b ∈ [2, 9]</li>
           </ul>
-          <div class="grid columns-3">
-            <button class="action" data-route="/home/multiplication/easy">Start Easy</button>
-            <button class="action" data-route="/home/multiplication/medium">Start Medium</button>
-            <button class="action" data-route="/home/multiplication/hard">Start Hard</button>
+          <div class="grid columns-3" style="margin-top: var(--space-lg);">
+            <button class="btn btn-success" data-route="/home/multiplication/easy">Start Easy</button>
+            <button class="btn btn-primary" data-route="/home/multiplication/medium">Start Medium</button>
+            <button class="btn btn-secondary" data-route="/home/multiplication/hard">Start Hard</button>
           </div>
         </div>
       </section>
 
+      <!-- MULTIPLICATION EASY -->
       <section class="screen" data-screen="/home/multiplication/easy">
-        <div class="breadcrumb"><span>home</span><span>multiplication</span><span>easy</span></div>
+        <div class="breadcrumb home-breadcrumb">
+          <span data-route="/home" class="breadcrumb-link breadcrumb-icon" style="font-family: var(--font-heading); color: #4a9fe8; font-size: 20px; font-weight: 700;">Math Universe</span>
+          <span data-route="/settings" class="breadcrumb-link breadcrumb-icon"><img src="icons/setting.svg" alt="settings" style="width: 30px; height: 30px; vertical-align: middle;"></span>
+        </div>
+
         <div class="header-bar exercise-header">
           <div class="avatar-placeholder">Avatar</div>
           <div class="progress-block">
-            <div>Question 5 of 10</div>
-            <div class="progress question-progress"><span style="width: 40%;"></span></div>
+            <div style="font-size: 18px; font-weight: 600;">Question 1 of 10</div>
+            <div class="progress question-progress"><span style="width: 10%;"></span></div>
           </div>
         </div>
+
         <div class="question-area">
           <div class="problem-text">2 × 3 = ( )</div>
           <div class="problem-helpers">
             <div class="icon-group column">
-              <div class="helper-icon">Icon</div>
-              <div class="helper-icon">Icon</div>
-              <div class="helper-icon">Icon</div>
+              <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
+              <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
+              <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
             </div>
             <span class="operator">×</span>
             <div class="icon-group column">
-              <div class="helper-icon">Icon</div>
-              <div class="helper-icon">Icon</div>
-              <div class="helper-icon">Icon</div>
+              <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
+              <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
+              <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
             </div>
           </div>
         </div>
+
         <form>
           <input type="number" placeholder="Answer" />
-          <button class="action">Submit Answer</button>
+          <button class="btn btn-primary">Submit Answer 🚀</button>
         </form>
       </section>
 
+      <!-- MULTIPLICATION MEDIUM -->
       <section class="screen" data-screen="/home/multiplication/medium">
-        <div class="breadcrumb"><span>home</span><span>multiplication</span><span>medium</span></div>
+        <div class="breadcrumb home-breadcrumb">
+          <span data-route="/home" class="breadcrumb-link breadcrumb-icon" style="font-family: var(--font-heading); color: #4a9fe8; font-size: 20px; font-weight: 700;">Math Universe</span>
+          <span data-route="/settings" class="breadcrumb-link breadcrumb-icon"><img src="icons/setting.svg" alt="settings" style="width: 30px; height: 30px; vertical-align: middle;"></span>
+        </div>
+
         <div class="header-bar exercise-header">
           <div class="avatar-placeholder">Avatar</div>
           <div class="progress-block">
-            <div>Question 3 of 10</div>
-            <div class="progress question-progress"><span style="width: 30%;"></span></div>
+            <div style="font-size: 18px; font-weight: 600;">Question 1 of 10</div>
+            <div class="progress question-progress"><span style="width: 10%;"></span></div>
           </div>
         </div>
-        <div class="question-area">7 × 8 = ( )</div>
+
+        <div class="question-area">
+          <div class="problem-text">7 × 8 = ( )</div>
+        </div>
+
         <form>
           <input type="number" placeholder="Answer" />
-          <button class="action">Submit Answer</button>
+          <button class="btn btn-primary">Submit Answer 🚀</button>
         </form>
       </section>
 
+      <!-- MULTIPLICATION HARD -->
       <section class="screen" data-screen="/home/multiplication/hard">
-        <div class="breadcrumb"><span>home</span><span>multiplication</span><span>hard</span></div>
+        <div class="breadcrumb home-breadcrumb">
+          <span data-route="/home" class="breadcrumb-link breadcrumb-icon" style="font-family: var(--font-heading); color: #4a9fe8; font-size: 20px; font-weight: 700;">Math Universe</span>
+          <span data-route="/settings" class="breadcrumb-link breadcrumb-icon"><img src="icons/setting.svg" alt="settings" style="width: 30px; height: 30px; vertical-align: middle;"></span>
+        </div>
+
         <div class="header-bar exercise-header">
           <div class="avatar-placeholder">Avatar</div>
           <div class="progress-block">
-            <div>Question 2 of 10</div>
-            <div class="progress question-progress"><span style="width: 20%;"></span></div>
+            <div style="font-size: 18px; font-weight: 600;">Question 1 of 10</div>
+            <div class="progress question-progress"><span style="width: 10%;"></span></div>
           </div>
         </div>
-        <div class="question-area">40 × 6 = ( )</div>
+
+        <div class="question-area">
+          <div class="problem-text">40 × 6 = ( )</div>
+        </div>
+
         <form>
           <input type="number" placeholder="Answer" />
-          <button class="action">Submit Answer</button>
+          <button class="btn btn-primary">Submit Answer 🚀</button>
         </form>
       </section>
 
+      <!-- DIVISION OVERVIEW -->
       <section class="screen" data-screen="/home/division">
-        <div class="breadcrumb"><span>home</span><span>division</span></div>
+        <div class="breadcrumb home-breadcrumb">
+          <span data-route="/home" class="breadcrumb-link breadcrumb-icon" style="font-family: var(--font-heading); color: #4a9fe8; font-size: 20px; font-weight: 700;">Math Universe</span>
+          <span data-route="/settings" class="breadcrumb-link breadcrumb-icon"><img src="icons/setting.svg" alt="settings" style="width: 30px; height: 30px; vertical-align: middle;"></span>
+        </div>
         <div class="panel">
           <h2>Division Levels</h2>
           <ul class="list">
@@ -734,193 +1285,225 @@
             <li>Medium: a ÷ b, a from 9×9 multiplication table, b ∈ [6, 9]</li>
             <li>Hard: Not available (route retained, disabled)</li>
           </ul>
-          <div class="grid columns-3">
-            <button class="action" data-route="/home/division/easy">Start Easy</button>
-            <button class="action" data-route="/home/division/medium">Start Medium</button>
-            <button class="action muted" data-route="/home/division/hard">Hard (disabled)</button>
+          <div class="grid columns-3" style="margin-top: var(--space-lg);">
+            <button class="btn btn-success" data-route="/home/division/easy">Start Easy</button>
+            <button class="btn btn-primary" data-route="/home/division/medium">Start Medium</button>
+            <button class="btn muted" data-route="/home/division/hard">Hard</button>
           </div>
         </div>
       </section>
 
+      <!-- DIVISION EASY -->
       <section class="screen" data-screen="/home/division/easy">
-        <div class="breadcrumb"><span>home</span><span>division</span><span>easy</span></div>
+        <div class="breadcrumb home-breadcrumb">
+          <span data-route="/home" class="breadcrumb-link breadcrumb-icon" style="font-family: var(--font-heading); color: #4a9fe8; font-size: 20px; font-weight: 700;">Math Universe</span>
+          <span data-route="/settings" class="breadcrumb-link breadcrumb-icon"><img src="icons/setting.svg" alt="settings" style="width: 30px; height: 30px; vertical-align: middle;"></span>
+        </div>
+
         <div class="header-bar exercise-header">
           <div class="avatar-placeholder">Avatar</div>
           <div class="progress-block">
-            <div>Question 9 of 10</div>
-            <div class="progress question-progress"><span style="width: 90%;"></span></div>
+            <div style="font-size: 18px; font-weight: 600;">Question 1 of 10</div>
+            <div class="progress question-progress"><span style="width: 10%;"></span></div>
           </div>
         </div>
+
         <div class="question-area">
           <div class="problem-text">24 ÷ 3 = ( )</div>
           <div class="problem-helpers">
             <div class="icon-group">
-              <div class="helper-icon">Icon</div>
-              <div class="helper-icon">Icon</div>
-              <div class="helper-icon">Icon</div>
-              <div class="helper-icon">Icon</div>
-              <div class="helper-icon">Icon</div>
-              <div class="helper-icon">Icon</div>
-              <div class="helper-icon">Icon</div>
-              <div class="helper-icon">Icon</div>
+              <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
+              <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
+              <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
+              <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
+              <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
+              <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
+              <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
+              <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
             </div>
             <span class="operator">÷</span>
             <div class="icon-group">
-              <div class="helper-icon">Icon</div>
-              <div class="helper-icon">Icon</div>
-              <div class="helper-icon">Icon</div>
-              <div class="helper-icon">Icon</div>
-              <div class="helper-icon">Icon</div>
-              <div class="helper-icon">Icon</div>
-              <div class="helper-icon">Icon</div>
-              <div class="helper-icon">Icon</div>
-            </div>
-            <span class="operator">÷</span>
-            <div class="icon-group">
-              <div class="helper-icon">Icon</div>
-              <div class="helper-icon">Icon</div>
-              <div class="helper-icon">Icon</div>
-              <div class="helper-icon">Icon</div>
-              <div class="helper-icon">Icon</div>
-              <div class="helper-icon">Icon</div>
-              <div class="helper-icon">Icon</div>
-              <div class="helper-icon">Icon</div>
+              <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
+              <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
+              <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
             </div>
           </div>
         </div>
+
         <form>
           <input type="number" placeholder="Answer" />
-          <button class="action">Submit Answer</button>
+          <button class="btn btn-primary">Submit Answer 🚀</button>
         </form>
       </section>
 
+      <!-- DIVISION MEDIUM -->
       <section class="screen" data-screen="/home/division/medium">
-        <div class="breadcrumb"><span>home</span><span>division</span><span>medium</span></div>
+        <div class="breadcrumb home-breadcrumb">
+          <span data-route="/home" class="breadcrumb-link breadcrumb-icon" style="font-family: var(--font-heading); color: #4a9fe8; font-size: 20px; font-weight: 700;">Math Universe</span>
+          <span data-route="/settings" class="breadcrumb-link breadcrumb-icon"><img src="icons/setting.svg" alt="settings" style="width: 30px; height: 30px; vertical-align: middle;"></span>
+        </div>
+
         <div class="header-bar exercise-header">
           <div class="avatar-placeholder">Avatar</div>
           <div class="progress-block">
-            <div>Question 6 of 10</div>
-            <div class="progress question-progress"><span style="width: 60%;"></span></div>
+            <div style="font-size: 18px; font-weight: 600;">Question 1 of 10</div>
+            <div class="progress question-progress"><span style="width: 10%;"></span></div>
           </div>
         </div>
-        <div class="question-area">72 ÷ 8 = ( )</div>
+
+        <div class="question-area">
+          <div class="problem-text">72 ÷ 8 = ( )</div>
+        </div>
+
         <form>
           <input type="number" placeholder="Answer" />
-          <button class="action">Submit Answer</button>
+          <button class="btn btn-primary">Submit Answer 🚀</button>
         </form>
       </section>
 
+      <!-- DIVISION HARD (DISABLED) -->
       <section class="screen" data-screen="/home/division/hard">
-        <div class="breadcrumb"><span>home</span><span>division</span><span>hard</span></div>
-        <div class="panel" style="align-items: center;">
+        <div class="breadcrumb home-breadcrumb">
+          <span data-route="/home" class="breadcrumb-link breadcrumb-icon" style="font-family: var(--font-heading); color: #4a9fe8; font-size: 20px; font-weight: 700;">Math Universe</span>
+          <span data-route="/settings" class="breadcrumb-link breadcrumb-icon"><img src="icons/setting.svg" alt="settings" style="width: 30px; height: 30px; vertical-align: middle;"></span>
+        </div>
+
+        <div class="panel" style="text-align: center;">
           <h2>Division Hard</h2>
-          <p>This route is reserved and remains disabled according to the PRD.</p>
-          <button class="action" data-route="/home/division">Return to division levels</button>
+          <p style="color: var(--text-secondary); margin: var(--space-lg) 0;">This route is reserved and remains disabled according to the PRD.</p>
+          <button class="btn btn-secondary" data-route="/home/division">Return to division levels</button>
         </div>
       </section>
 
+      <!-- SETTINGS -->
       <section class="screen" data-screen="/settings">
-        <div class="breadcrumb"><span>Settings</span></div>
+        <div class="breadcrumb home-breadcrumb">
+          <span data-route="/home" class="breadcrumb-link breadcrumb-icon" style="font-family: var(--font-heading); color: #4a9fe8; font-size: 20px; font-weight: 700;">Math Universe</span>
+          <span data-route="/settings" class="breadcrumb-link breadcrumb-icon"><img src="icons/setting.svg" alt="settings" style="width: 30px; height: 30px; vertical-align: middle;"></span>
+        </div>
+
         <div class="panel">
           <h2>Settings</h2>
-          <p>Update avatar, helper icons, and review learning statistics.</p>
-          <div class="grid columns-3" style="max-width: 720px;">
-            <button class="action" data-route="/settings/avatar">Avatar library</button>
-            <button class="action" data-route="/settings/icons">Helper icon library</button>
-            <button class="action" data-route="/settings/stats">My stats</button>
+          <p style="color: var(--text-secondary); margin-bottom: var(--space-lg);">Update avatar, helper icons, and review learning statistics.</p>
+
+          <div class="grid columns-3" style="margin-bottom: var(--space-lg);">
+            <button class="btn btn-primary" data-route="/settings/avatar">Avatar library</button>
+            <button class="btn btn-primary" data-route="/settings/icons">Helper icon library</button>
+            <button class="btn muted">My stats</button>
           </div>
-          <button class="action" data-route="/home">Back to home</button>
         </div>
       </section>
 
+      <!-- SETTINGS - AVATAR -->
       <section class="screen" data-screen="/settings/avatar">
-        <div class="breadcrumb"><span>Settings</span><span>avatar</span></div>
+        <div class="breadcrumb home-breadcrumb">
+          <span data-route="/home" class="breadcrumb-link breadcrumb-icon" style="font-family: var(--font-heading); color: #4a9fe8; font-size: 20px; font-weight: 700;">Math Universe</span>
+          <span data-route="/settings" class="breadcrumb-link breadcrumb-icon"><img src="icons/setting.svg" alt="settings" style="width: 30px; height: 30px; vertical-align: middle;"></span>
+        </div>
+
         <div class="panel">
           <h2>Avatar Library</h2>
-          <p>Choose an avatar. Selection updates the exercise header immediately.</p>
-          <div class="grid columns-3">
-            <div class="card">
-              <img src="images/roblox.png" alt="Roblox Avatar" style="width: 100%; height: 200px; object-fit: contain; border: 2px solid #2b2b2b;">
-              <button class="action selected-avatar">Selected ✓</button>
+          <p style="color: var(--text-secondary); margin-bottom: var(--space-lg);">Choose an avatar. Selection updates the exercise header immediately.</p>
+
+          <div class="grid columns-3" style="margin-bottom: var(--space-lg);">
+            <div class="card" style="align-items: center;">
+              <img src="images/roblox.png" alt="Roblox Avatar" style="width: 100%; height: 200px; object-fit: contain; border: 3px solid var(--primary-blue); border-radius: var(--radius-md);">
+              <button class="btn btn-success selected-avatar">Selected ✓</button>
             </div>
-            <div class="card">
-              <img src="images/minecraft.png" alt="Minecraft Avatar" style="width: 100%; height: 200px; object-fit: contain;">
-              <button class="action">Select Avatar</button>
+
+            <div class="card" style="align-items: center;">
+              <img src="images/minecraft.png" alt="Minecraft Avatar" style="width: 100%; height: 200px; object-fit: contain; border-radius: var(--radius-md);">
+              <button class="btn btn-secondary">Select Avatar</button>
             </div>
-            <div class="card">
-              <img src="images/Bamse.png" alt="Bamse Avatar" style="width: 100%; height: 200px; object-fit: contain;">
-              <button class="action">Select Avatar</button>
+
+            <div class="card" style="align-items: center;">
+              <img src="images/Bamse.png" alt="Bamse Avatar" style="width: 100%; height: 200px; object-fit: contain; border-radius: var(--radius-md);">
+              <button class="btn btn-secondary">Select Avatar</button>
             </div>
           </div>
-          <button class="action" data-route="/settings">Back to Settings</button>
         </div>
       </section>
 
+      <!-- SETTINGS - ICONS -->
       <section class="screen" data-screen="/settings/icons">
-        <div class="breadcrumb"><span>Settings</span><span>icons</span></div>
+        <div class="breadcrumb home-breadcrumb">
+          <span data-route="/home" class="breadcrumb-link breadcrumb-icon" style="font-family: var(--font-heading); color: #4a9fe8; font-size: 20px; font-weight: 700;">Math Universe</span>
+          <span data-route="/settings" class="breadcrumb-link breadcrumb-icon"><img src="icons/setting.svg" alt="settings" style="width: 30px; height: 30px; vertical-align: middle;"></span>
+        </div>
+
         <div class="panel">
           <h2>Helper Icon Library</h2>
-          <p>Select quantity helper icons used in Easy levels.</p>
-          <div class="grid columns-3">
-            <div class="card">
+          <p style="color: var(--text-secondary); margin-bottom: var(--space-lg);">Select quantity helper icons used in Easy levels.</p>
+
+          <div class="grid columns-3" style="margin-bottom: var(--space-lg);">
+            <div class="card" style="align-items: center;">
               <div class="helper-icons">
-                <div class="helper-icon">Token</div>
-                <div class="helper-icon">Token</div>
-                <div class="helper-icon">Token</div>
+                <img src="icons/coins.svg" alt="coins" style="width: 48px; height: 48px;">
+                <img src="icons/coins.svg" alt="coins" style="width: 48px; height: 48px;">
+                <img src="icons/coins.svg" alt="coins" style="width: 48px; height: 48px;">
               </div>
-              <button class="action">Use set</button>
+              <button class="btn btn-success">Selected ✓</button>
             </div>
-            <div class="card">
+
+            <div class="card" style="align-items: center;">
               <div class="helper-icons">
-                <div class="helper-icon">Coin</div>
-                <div class="helper-icon">Coin</div>
-                <div class="helper-icon">Coin</div>
+                <img src="icons/star.svg" alt="star" style="width: 48px; height: 48px;">
+                <img src="icons/star.svg" alt="star" style="width: 48px; height: 48px;">
+                <img src="icons/star.svg" alt="star" style="width: 48px; height: 48px;">
               </div>
-              <button class="action">Use set</button>
+              <button class="btn btn-primary">Use set</button>
             </div>
-            <div class="card">
+
+            <div class="card" style="align-items: center;">
               <div class="helper-icons">
-                <div class="helper-icon">Star</div>
-                <div class="helper-icon">Star</div>
-                <div class="helper-icon">Star</div>
+                <img src="icons/heart.svg" alt="heart" style="width: 48px; height: 48px;">
+                <img src="icons/heart.svg" alt="heart" style="width: 48px; height: 48px;">
+                <img src="icons/heart.svg" alt="heart" style="width: 48px; height: 48px;">
               </div>
-              <button class="action">Use set</button>
+              <button class="btn btn-primary">Use set</button>
             </div>
           </div>
-          <button class="action" data-route="/settings">Back to Settings</button>
         </div>
       </section>
 
+      <!-- SETTINGS - STATS -->
       <section class="screen" data-screen="/settings/stats">
-        <div class="breadcrumb"><span>Settings</span><span>stats</span></div>
+        <div class="breadcrumb home-breadcrumb">
+          <span data-route="/home" class="breadcrumb-link breadcrumb-icon" style="font-family: var(--font-heading); color: #4a9fe8; font-size: 20px; font-weight: 700;">Math Universe</span>
+          <span data-route="/settings" class="breadcrumb-link breadcrumb-icon"><img src="icons/setting.svg" alt="settings" style="width: 30px; height: 30px; vertical-align: middle;"></span>
+        </div>
+
         <div class="panel">
           <h2>My Stats</h2>
-          <div class="layout-row">
+
+          <div class="layout-row" style="margin-bottom: var(--space-lg);">
             <div class="card" style="flex: 1;">
-              <strong>Today</strong>
+              <strong style="color: var(--primary-blue); font-size: 20px;">Today</strong>
               <ul class="list">
-                <li>Addition: 10</li>
-                <li>Subtraction: 2</li>
-                <li>Multiplication: 0</li>
-                <li>Division: 0</li>
+                <li><strong>Addition:</strong> 10 questions</li>
+                <li><strong>Subtraction:</strong> 2 questions</li>
+                <li><strong>Multiplication:</strong> 0 questions</li>
+                <li><strong>Division:</strong> 0 questions</li>
               </ul>
             </div>
+
             <div class="card" style="flex: 1;">
-              <strong>This Week</strong>
+              <strong style="color: var(--success-green); font-size: 20px;">This Week</strong>
               <ul class="list">
-                <li>Addition: 24</li>
-                <li>Subtraction: 12</li>
-                <li>Multiplication: 6</li>
-                <li>Division: 0</li>
+                <li><strong>Addition:</strong> 24 questions</li>
+                <li><strong>Subtraction:</strong> 12 questions</li>
+                <li><strong>Multiplication:</strong> 6 questions</li>
+                <li><strong>Division:</strong> 0 questions</li>
               </ul>
             </div>
           </div>
-          <p style="font-size: 12px; color: #666666;">Stats follow the rule of 10 questions per completed level.</p>
-          <button class="action" data-route="/settings">Back to Settings</button>
+
+          <p style="font-size: 12px; color: var(--text-muted); margin-bottom: var(--space-lg);">Stats follow the rule of 10 questions per completed level.</p>
         </div>
       </section>
     </main>
   </div>
+
   <script>
     (function () {
       const buttons = document.querySelectorAll('[data-route]');
@@ -1105,35 +1688,46 @@
       };
 
       // ========== AVATAR STATE ==========
-      let selectedAvatar = 'images/roblox.png'; // Default avatar
+      let selectedAvatar = 'images/roblox.png';
       let userName = '';
+      let selectedHelperIcon = 'icons/coins.svg';
 
       function updateAllAvatars() {
-        // Update all avatar placeholders in the app
         const avatarElements = document.querySelectorAll('.avatar-placeholder');
         avatarElements.forEach(avatar => {
           avatar.innerHTML = `<img src="${selectedAvatar}" alt="Avatar" style="width: 100%; height: 100%; object-fit: contain;">`;
         });
       }
 
+      function updateAllHelperIcons() {
+        const helperIconContainers = document.querySelectorAll('.problem-helpers');
+        helperIconContainers.forEach(container => {
+          const icons = container.querySelectorAll('img');
+          icons.forEach(icon => {
+            icon.src = selectedHelperIcon;
+          });
+        });
+      }
+
+      function updateUserName() {
+        const homeGreeting = document.querySelector('[data-screen="/home"] .header-bar.exercise-header div div');
+        if (homeGreeting && userName) {
+          homeGreeting.textContent = `Hi ${userName}!`;
+        }
+      }
+
       // ========== INTRO PAGE AVATAR SELECTION ==========
       document.addEventListener('click', (e) => {
-        const card = e.target.closest('#intro-avatar-selection .card');
+        const card = e.target.closest('#intro-avatar-selection .avatar-card');
         if (card) {
           const avatarPath = card.dataset.avatar;
           if (avatarPath) {
-            // Update selected avatar
             selectedAvatar = avatarPath;
 
-            // Update borders
-            const allCards = document.querySelectorAll('#intro-avatar-selection .card img');
-            allCards.forEach(img => {
-              img.style.border = '3px solid transparent';
-            });
-            const selectedImg = card.querySelector('img');
-            if (selectedImg) {
-              selectedImg.style.border = '3px solid #2b2b2b';
-            }
+            // Update selection state
+            const allCards = document.querySelectorAll('#intro-avatar-selection .avatar-card');
+            allCards.forEach(c => c.classList.remove('selected'));
+            card.classList.add('selected');
           }
         }
       });
@@ -1143,16 +1737,12 @@
         const nameInput = document.getElementById('user-name-input');
         userName = nameInput?.value.trim() || 'Friend';
 
-        // Update all avatars with selected avatar
         updateAllAvatars();
-
-        // Navigate to home
         showScreen('/home');
       });
 
       // ========== CUSTOM MODAL ==========
       function showCustomModal(message) {
-        // Create modal
         const modal = document.createElement('div');
         modal.className = 'custom-modal';
 
@@ -1178,12 +1768,17 @@
         screens.forEach((screen) => {
           screen.classList.toggle('active', screen.dataset.screen === route);
         });
-        routeLabel.textContent = 'Current: ' + route;
+        if (routeLabel) {
+          routeLabel.textContent = 'Current: ' + route;
+        }
 
-        // Update avatars when showing any screen
         updateAllAvatars();
 
-        // Check if this is an exercise route
+        // Update username on home page
+        if (route === '/home') {
+          updateUserName();
+        }
+
         const generator = getGenerator(route);
         if (generator) {
           initExercise(route, generator);
@@ -1208,7 +1803,6 @@
         const currentQ = questions[currentIndex];
         const isComplete = currentIndex >= 10;
 
-        // Update question display
         const questionArea = screen.querySelector('.question-area');
         if (questionArea) {
           const problemText = questionArea.querySelector('.problem-text');
@@ -1218,7 +1812,6 @@
             questionArea.textContent = isComplete ? `🎉 All questions finished!` : `${currentQ.q} = ( )`;
           }
 
-          // Update helper icons for Easy levels
           const problemHelpers = questionArea.querySelector('.problem-helpers');
           if (problemHelpers) {
             if (isComplete) {
@@ -1229,7 +1822,6 @@
           }
         }
 
-        // Update progress text
         const progressBlock = screen.querySelector('.progress-block');
         if (progressBlock) {
           const progressText = progressBlock.querySelector('div');
@@ -1238,7 +1830,6 @@
           }
         }
 
-        // Update progress bar
         const progressBar = screen.querySelector('.progress');
         if (progressBar) {
           const progressFill = progressBar.querySelector('span');
@@ -1247,13 +1838,11 @@
           }
         }
 
-        // Handle form display - hide when complete
         const form = screen.querySelector('form');
         if (form) {
           if (isComplete) {
             form.style.display = 'none';
 
-            // Create completion buttons if not already exist
             let completionDiv = screen.querySelector('.completion-buttons');
             if (!completionDiv) {
               completionDiv = document.createElement('div');
@@ -1261,17 +1850,15 @@
               completionDiv.style.cssText = 'display: flex; gap: 16px; justify-content: center; margin-top: 24px;';
 
               const startOverBtn = document.createElement('button');
-              startOverBtn.className = 'action';
+              startOverBtn.className = 'btn btn-secondary';
               startOverBtn.textContent = 'Start Over';
-              startOverBtn.style.cssText = 'padding: 12px 24px; font-size: 16px;';
               startOverBtn.onclick = () => {
                 initExercise(route, getGenerator(route));
               };
 
               const homeBtn = document.createElement('button');
-              homeBtn.className = 'action';
+              homeBtn.className = 'btn btn-primary';
               homeBtn.textContent = 'Return to Home Page';
-              homeBtn.style.cssText = 'padding: 12px 24px; font-size: 16px;';
               homeBtn.onclick = () => {
                 showScreen('/home');
               };
@@ -1288,7 +1875,6 @@
               completionDiv.style.display = 'none';
             }
 
-            // Update input field
             const input = form.querySelector('input[type="number"]');
             if (input) {
               input.value = '';
@@ -1299,91 +1885,90 @@
       }
 
       function updateHelperIcons(container, questionText, route) {
-        // Only show helper icons for Easy levels
         if (!route.includes('/easy')) {
           container.style.display = 'none';
           return;
         }
         container.style.display = 'flex';
 
-        // Parse the question to get the numbers
         const numbers = questionText.match(/\d+/g);
         if (!numbers || numbers.length < 2) return;
 
         const a = parseInt(numbers[0]);
         const b = parseInt(numbers[1]);
+
+        // Only show helper icons if a <= 25
+        if (a > 25) {
+          container.style.display = 'none';
+          return;
+        }
         const operator = questionText.includes('+') ? '+' :
                         questionText.includes('−') ? '−' :
                         questionText.includes('×') ? '×' :
                         questionText.includes('÷') ? '÷' : '+';
 
-        // Clear existing icons
         container.innerHTML = '';
 
-        // Create first group of icons
         const iconGroup1 = document.createElement('div');
         iconGroup1.className = operator === '×' ? 'icon-group column' : 'icon-group';
         for (let i = 0; i < a; i++) {
-          const icon = document.createElement('div');
-          icon.className = 'helper-icon';
-          icon.textContent = 'Icon';
+          const icon = document.createElement('img');
+          icon.src = selectedHelperIcon;
+          icon.alt = 'helper';
+          icon.style.cssText = 'width: 48px; height: 48px;';
           iconGroup1.appendChild(icon);
         }
         container.appendChild(iconGroup1);
 
-        // Add operator
         const operatorSpan = document.createElement('span');
         operatorSpan.className = 'operator';
         operatorSpan.textContent = operator;
         container.appendChild(operatorSpan);
 
-        // Create second group of icons
         const iconGroup2 = document.createElement('div');
         iconGroup2.className = operator === '×' ? 'icon-group column' : 'icon-group';
         for (let i = 0; i < b; i++) {
-          const icon = document.createElement('div');
-          icon.className = 'helper-icon';
-          icon.textContent = 'Icon';
+          const icon = document.createElement('img');
+          icon.src = selectedHelperIcon;
+          icon.alt = 'helper';
+          icon.style.cssText = 'width: 48px; height: 48px;';
           iconGroup2.appendChild(icon);
         }
         container.appendChild(iconGroup2);
 
-        // For division, add visual grouping
         if (operator === '÷') {
-          // Division shows the total divided into groups
           container.innerHTML = '';
 
-          // Show total items
           const totalGroup = document.createElement('div');
           totalGroup.className = 'icon-group';
           for (let i = 0; i < a; i++) {
-            const icon = document.createElement('div');
-            icon.className = 'helper-icon';
-            icon.textContent = 'Icon';
+            const icon = document.createElement('img');
+            icon.src = selectedHelperIcon;
+            icon.alt = 'helper';
+            icon.style.cssText = 'width: 48px; height: 48px;';
             totalGroup.appendChild(icon);
           }
           container.appendChild(totalGroup);
 
-          // Add operator
           const divOperator = document.createElement('span');
           divOperator.className = 'operator';
           divOperator.textContent = '÷';
           container.appendChild(divOperator);
 
-          // Show group size
           const groupSizeGroup = document.createElement('div');
           groupSizeGroup.className = 'icon-group';
           for (let i = 0; i < b; i++) {
-            const icon = document.createElement('div');
-            icon.className = 'helper-icon';
-            icon.textContent = 'Icon';
+            const icon = document.createElement('img');
+            icon.src = selectedHelperIcon;
+            icon.alt = 'helper';
+            icon.style.cssText = 'width: 48px; height: 48px;';
             groupSizeGroup.appendChild(icon);
           }
           container.appendChild(groupSizeGroup);
         }
       }
 
-      // Handle form submissions in exercise screens
+      // Handle form submissions
       document.addEventListener('submit', (e) => {
         if (!e.target.matches('form')) return;
 
@@ -1391,7 +1976,7 @@
         if (!screen) return;
 
         const route = screen.dataset.screen;
-        if (!getGenerator(route)) return; // Not an exercise screen
+        if (!getGenerator(route)) return;
 
         e.preventDefault();
 
@@ -1410,7 +1995,6 @@
         if (userAnswer === currentQ.answer) {
           currentExercise.score++;
 
-          // Flip avatar animation for correct answer
           const avatar = screen.querySelector('.avatar-placeholder');
           if (avatar) {
             avatar.classList.add('avatar-flip');
@@ -1420,14 +2004,12 @@
           }
 
           if (currentIndex === 9) {
-            // Last question
             setTimeout(() => {
               showCustomModal(`Well done! You got ${currentExercise.score} out of 10 correct!`);
               currentExercise.currentIndex = 10;
               updateExerciseDisplay(route);
             }, 600);
           } else {
-            // Next question
             setTimeout(() => {
               currentExercise.currentIndex++;
               updateExerciseDisplay(route);
@@ -1450,42 +2032,60 @@
 
       // ========== AVATAR SELECTION ==========
       document.addEventListener('click', (e) => {
-        // Check if clicked on avatar selection button
-        if (e.target.matches('.card button.action') && e.target.closest('[data-screen="/settings/avatar"]')) {
+        if (e.target.matches('.card button') && e.target.closest('[data-screen="/settings/avatar"]')) {
           const card = e.target.closest('.card');
           const img = card.querySelector('img');
 
           if (img && img.src) {
-            // Update selected avatar
             selectedAvatar = img.getAttribute('src');
 
-            // Update all avatar buttons in the settings
             const avatarScreen = document.querySelector('[data-screen="/settings/avatar"]');
             const allButtons = avatarScreen.querySelectorAll('.card button');
             allButtons.forEach(btn => {
               btn.textContent = 'Select Avatar';
-              btn.classList.remove('selected-avatar');
+              btn.className = 'btn btn-secondary';
             });
 
-            // Mark this button as selected
             e.target.textContent = 'Selected ✓';
-            e.target.classList.add('selected-avatar');
+            e.target.className = 'btn btn-success selected-avatar';
 
-            // Update all avatars in the app
             updateAllAvatars();
 
-            // Update border on selected image
             const allImages = avatarScreen.querySelectorAll('.card img');
             allImages.forEach(image => {
               image.style.border = 'none';
             });
-            img.style.border = '2px solid #2b2b2b';
+            img.style.border = '3px solid var(--primary-blue)';
+          }
+        }
+      });
+
+      // ========== HELPER ICON SELECTION ==========
+      document.addEventListener('click', (e) => {
+        if (e.target.matches('.card button') && e.target.closest('[data-screen="/settings/icons"]')) {
+          const card = e.target.closest('.card');
+          const firstIcon = card.querySelector('.helper-icons img');
+
+          if (firstIcon && firstIcon.src) {
+            selectedHelperIcon = firstIcon.getAttribute('src');
+
+            const iconScreen = document.querySelector('[data-screen="/settings/icons"]');
+            const allButtons = iconScreen.querySelectorAll('.card button');
+            allButtons.forEach(btn => {
+              btn.textContent = 'Use set';
+              btn.className = 'btn btn-primary';
+            });
+
+            e.target.textContent = 'Selected ✓';
+            e.target.className = 'btn btn-success';
+
+            updateAllHelperIcons();
           }
         }
       });
 
       showScreen('/login');
-      updateAllAvatars(); // Initialize avatars
+      updateAllAvatars();
     })();
   </script>
 </body>
