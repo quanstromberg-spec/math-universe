@@ -973,7 +973,7 @@
         </div>
 
         <div class="question-area">
-          <div class="problem-text">5 + 3 = ( )</div>
+          <div class="problem-text">5 + 3 = ?</div>
           <div class="problem-helpers">
             <div class="icon-group">
               <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
@@ -1013,7 +1013,7 @@
         </div>
 
         <div class="question-area">
-          <div class="problem-text">9 + 5 = ( )</div>
+          <div class="problem-text">9 + 5 = ?</div>
         </div>
 
         <form>
@@ -1038,7 +1038,7 @@
         </div>
 
         <div class="question-area">
-          <div class="problem-text">35 + 47 = ( )</div>
+          <div class="problem-text">35 + 47 = ?</div>
         </div>
 
         <form>
@@ -1084,7 +1084,7 @@
         </div>
 
         <div class="question-area">
-          <div class="problem-text">9 − 4 = ( )</div>
+          <div class="problem-text">9 − 4 = ?</div>
           <div class="problem-helpers">
             <div class="icon-group">
               <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
@@ -1129,7 +1129,7 @@
         </div>
 
         <div class="question-area">
-          <div class="problem-text">40 − 18 = ( )</div>
+          <div class="problem-text">40 − 18 = ?</div>
         </div>
 
         <form>
@@ -1154,7 +1154,7 @@
         </div>
 
         <div class="question-area">
-          <div class="problem-text">60 − 20 − 15 = ( )</div>
+          <div class="problem-text">60 − 20 − 15 = ?</div>
         </div>
 
         <form>
@@ -1200,7 +1200,7 @@
         </div>
 
         <div class="question-area">
-          <div class="problem-text">2 × 3 = ( )</div>
+          <div class="problem-text">2 × 3 = ?</div>
           <div class="problem-helpers">
             <div class="icon-group">
               <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
@@ -1237,7 +1237,7 @@
         </div>
 
         <div class="question-area">
-          <div class="problem-text">7 × 8 = ( )</div>
+          <div class="problem-text">7 × 8 = ?</div>
         </div>
 
         <form>
@@ -1262,7 +1262,7 @@
         </div>
 
         <div class="question-area">
-          <div class="problem-text">40 × 6 = ( )</div>
+          <div class="problem-text">40 × 6 = ?</div>
         </div>
 
         <form>
@@ -1308,7 +1308,7 @@
         </div>
 
         <div class="question-area">
-          <div class="problem-text">24 ÷ 3 = ( )</div>
+          <div class="problem-text">24 ÷ 3 = ?</div>
           <div class="problem-helpers">
             <div class="icon-group">
               <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
@@ -1351,7 +1351,7 @@
         </div>
 
         <div class="question-area">
-          <div class="problem-text">72 ÷ 8 = ( )</div>
+          <div class="problem-text">72 ÷ 8 = ?</div>
         </div>
 
         <form>
@@ -1806,9 +1806,9 @@
         if (questionArea) {
           const problemText = questionArea.querySelector('.problem-text');
           if (problemText) {
-            problemText.textContent = isComplete ? `🎉 All questions finished!` : `${currentQ.q} = ( )`;
+            problemText.textContent = isComplete ? `🎉 All questions finished!` : `${currentQ.q} = ?`;
           } else {
-            questionArea.textContent = isComplete ? `🎉 All questions finished!` : `${currentQ.q} = ( )`;
+            questionArea.textContent = isComplete ? `🎉 All questions finished!` : `${currentQ.q} = ?`;
           }
 
           const problemHelpers = questionArea.querySelector('.problem-helpers');
