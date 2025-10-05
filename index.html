@@ -965,7 +965,7 @@
           <h2>Addition Levels</h2>
           <ul class="list">
             <li>Easy: a + b ≤ 10, a and b ∈ [5, 9]</li>
-            <li>Medium: a + b ≤ 15</li>
+            <li>Medium: a + b ≤ 30, a ∈ [5, 14], b ∈ [5, 15]</li>
             <li>Hard: a + b ≤ 100</li>
           </ul>
           <div class="grid columns-3" style="margin-top: var(--space-lg);">
@@ -1606,9 +1606,9 @@
 
       function generateAdditionMedium() {
         const validPairs = [];
-        for (let a = 1; a <= 14; a++) {
-          for (let b = 1; b <= 14; b++) {
-            if (a + b <= 15) validPairs.push([a, b]);
+        for (let a = 5; a <= 14; a++) {
+          for (let b = 5; b <= 15; b++) {
+            if (a + b <= 30) validPairs.push([a, b]);
           }
         }
         return shuffleAndCreate(validPairs, '+');
