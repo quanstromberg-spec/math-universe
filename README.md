@@ -38,3 +38,4 @@ Math Universe combines clean modern aesthetics with playful, child-friendly elem
 ## License
 
 This project is for educational purposes.
+
