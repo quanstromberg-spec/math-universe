@@ -1802,6 +1802,15 @@
           if (avatarPath) {
             selectedAvatar = avatarPath;
 
+            // Set corresponding helper icon based on avatar
+            if (avatarPath.includes('roblox')) {
+              selectedHelperIcon = 'icons/coins.svg';
+            } else if (avatarPath.includes('minecraft')) {
+              selectedHelperIcon = 'icons/tnt.svg';
+            } else if (avatarPath.includes('Bamse')) {
+              selectedHelperIcon = 'icons/honey.svg';
+            }
+
             // Update selection state
             const allCards = document.querySelectorAll('#intro-avatar-selection .avatar-card');
             allCards.forEach(c => c.classList.remove('selected'));
@@ -1857,10 +1866,38 @@
           updateUserName();
         }
 
+        // Update icon selection UI when navigating to icons page
+        if (route === '/settings/icons') {
+          updateIconSelectionUI();
+        }
+
         const generator = getGenerator(route);
         if (generator) {
           initExercise(route, generator);
         }
+      }
+
+      function updateIconSelectionUI() {
+        const iconScreen = document.querySelector('[data-screen="/settings/icons"]');
+        if (!iconScreen) return;
+
+        const allButtons = iconScreen.querySelectorAll('.card button');
+        const allCards = iconScreen.querySelectorAll('.card');
+
+        allCards.forEach((card, index) => {
+          const firstIcon = card.querySelector('.helper-icons img');
+          const button = card.querySelector('button');
+
+          if (firstIcon && button) {
+            if (firstIcon.getAttribute('src') === selectedHelperIcon) {
+              button.textContent = 'Selected ✓';
+              button.className = 'btn btn-success';
+            } else {
+              button.textContent = 'Use set';
+              button.className = 'btn btn-primary';
+            }
+          }
+        });
       }
 
       function initExercise(route, generator) {
