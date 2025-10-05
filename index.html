@@ -1202,13 +1202,12 @@
         <div class="question-area">
           <div class="problem-text">2 × 3 = ( )</div>
           <div class="problem-helpers">
-            <div class="icon-group column">
-              <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
+            <div class="icon-group">
               <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
               <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
             </div>
             <span class="operator">×</span>
-            <div class="icon-group column">
+            <div class="icon-group">
               <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
               <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
               <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
@@ -1910,7 +1909,7 @@
         container.innerHTML = '';
 
         const iconGroup1 = document.createElement('div');
-        iconGroup1.className = operator === '×' ? 'icon-group column' : 'icon-group';
+        iconGroup1.className = 'icon-group';
         for (let i = 0; i < a; i++) {
           const icon = document.createElement('img');
           icon.src = selectedHelperIcon;
@@ -1926,7 +1925,7 @@
         container.appendChild(operatorSpan);
 
         const iconGroup2 = document.createElement('div');
-        iconGroup2.className = operator === '×' ? 'icon-group column' : 'icon-group';
+        iconGroup2.className = 'icon-group';
         for (let i = 0; i < b; i++) {
           const icon = document.createElement('img');
           icon.src = selectedHelperIcon;
