@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Math Universe</title>
-  <link rel="icon" type="image/png" href="icons/Favicon.png">
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -89,7 +88,60 @@
 
     /* ========== LAYOUT ========== */
     .app {
+      display: grid;
+      grid-template-columns: 280px 1fr;
       min-height: 100vh;
+    }
+
+    .sidebar {
+      background: var(--bg-card);
+      border-right: 1px solid var(--border-default);
+      padding: var(--space-lg);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .sidebar h1 {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--primary-blue);
+      letter-spacing: -0.01em;
+    }
+
+    .sidebar nav {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
+
+    .sidebar button {
+      padding: 10px 14px;
+      border: 2px solid var(--border-default);
+      background: var(--bg-card);
+      text-align: left;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      border-radius: var(--radius-sm);
+      transition: all var(--transition-base);
+      color: var(--text-secondary);
+    }
+
+    .sidebar button:hover {
+      border-color: var(--primary-blue);
+      background: var(--primary-blue-light);
+      color: var(--primary-blue);
+      transform: translateX(4px);
+    }
+
+    .current-route {
+      font-size: 12px;
+      color: var(--text-muted);
+      padding: var(--space-sm) var(--space-md);
+      background: var(--bg-main);
+      border-radius: var(--radius-sm);
     }
 
     main {
@@ -136,7 +188,7 @@
     }
 
     .panel h3 {
-      font-size: 22px;
+      font-size: 24px;
       font-weight: 600;
       margin-bottom: var(--space-md);
     }
@@ -386,8 +438,8 @@
 
     /* ========== AVATARS ========== */
     .avatar-placeholder {
-      width: 288px;
-      height: 288px;
+      width: 192px;
+      height: 192px;
       border-radius: var(--radius-lg);
       display: flex;
       align-items: center;
@@ -441,7 +493,7 @@
     }
 
     .problem-text {
-      font-family: var(--font-body);
+      font-family: var(--font-heading);
       font-size: 36px;
       font-weight: 700;
       letter-spacing: 0.02em;
@@ -469,7 +521,7 @@
     }
 
     .operator {
-      font-family: var(--font-body);
+      font-family: var(--font-heading);
       font-size: 28px;
       font-weight: 700;
       padding: 0 var(--space-sm);
@@ -507,18 +559,13 @@
     }
 
     form input[type="number"] {
-      font-family: var(--font-body);
+      font-family: var(--font-heading);
       font-size: 24px;
       font-weight: 600;
       text-align: center;
       width: 200px;
       border: 3px solid var(--primary-blue);
       border-radius: var(--radius-md);
-    }
-
-    form input[type="number"]::placeholder {
-      font-size: 18px;
-      font-weight: 400;
     }
 
     /* ========== MODALS ========== */
@@ -633,7 +680,7 @@
     }
 
     .breadcrumb-link:hover {
-      text-decoration: none;
+      text-decoration: underline;
     }
 
     .home-breadcrumb {
@@ -779,6 +826,15 @@
 
     /* ========== RESPONSIVE ========== */
     @media (max-width: 1024px) {
+      .app {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        border-right: none;
+        border-bottom: 1px solid var(--border-default);
+      }
+
       .grid.columns-3 {
         grid-template-columns: repeat(2, 1fr);
       }
@@ -819,97 +875,6 @@
       .welcome-section h2 {
         font-size: 20px;
       }
-
-      .header-bar.exercise-header {
-        padding: 0;
-      }
-
-      h1, h2, h3, h4, h5, h6 {
-        letter-spacing: 0.03em;
-      }
-
-      h3 {
-        font-size: 20px;
-      }
-
-      .name-input-section h3,
-      .avatar-selection-section h3 {
-        font-size: 20px;
-      }
-
-      .question-area {
-        padding-top: 12px;
-        padding-bottom: 12px;
-      }
-
-      .problem-helpers img {
-        width: 24px !important;
-        height: 24px !important;
-      }
-
-      #get-started-btn {
-        font-size: 18px;
-      }
-
-      .celebration-overlay {
-        padding: 100px 20px;
-        width: 90%;
-        max-width: 400px;
-      }
-
-      .celebration-text {
-        font-size: 14px;
-      }
-    }
-
-    /* ========== CELEBRATION CONFETTI ========== */
-    .celebration-overlay {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      padding: 100px 120px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 9999;
-      pointer-events: none;
-      overflow: hidden;
-      background-color: white;
-      border-radius: 8px;
-    }
-
-    .celebration-text {
-      font-size: 18px;
-      color: #ff7b00;
-      text-shadow: 2px 2px 10px rgba(0,0,0,0.1);
-      opacity: 0;
-      transform: scale(0.6);
-      animation: popIn 0.8s ease-out forwards;
-      z-index: 10000;
-      position: relative;
-      white-space: pre-line;
-      text-align: center;
-    }
-
-    @keyframes popIn {
-      0% { opacity: 0; transform: scale(0.6); }
-      60% { opacity: 1; transform: scale(1.1); }
-      100% { opacity: 1; transform: scale(1); }
-    }
-
-    .confetti {
-      position: absolute;
-      width: 10px;
-      height: 10px;
-      background-color: #ffcc00;
-      opacity: 0.8;
-      animation: fall 3s linear infinite;
-    }
-
-    @keyframes fall {
-      0% { transform: translateY(-30vh) rotate(0deg); }
-      100% { transform: translateY(110vh) rotate(720deg); }
     }
 
     /* ========== STAT BLOCKS ========== */
@@ -925,26 +890,46 @@
       background: var(--bg-card);
       box-shadow: var(--shadow-sm);
     }
-
-    /* ========== FOOTER ========== */
-    .footer {
-      margin-top: var(--space-2xl);
-      padding: var(--space-lg);
-      text-align: center;
-      font-size: 12px;
-      color: var(--text-muted);
-      border-top: 1px solid var(--border-default);
-    }
   </style>
 </head>
 <body>
   <div class="app">
+    <aside class="sidebar">
+      <h1>Math Universe</h1>
+      <div class="current-route" id="current-route">Current: /login</div>
+      <nav>
+        <button data-route="/login">/login</button>
+        <button data-route="/home">/home</button>
+        <button data-route="/home/addition">/home/addition</button>
+        <button data-route="/home/addition/easy">/home/addition/easy</button>
+        <button data-route="/home/addition/medium">/home/addition/medium</button>
+        <button data-route="/home/addition/hard">/home/addition/hard</button>
+        <button data-route="/home/subtraction">/home/subtraction</button>
+        <button data-route="/home/subtraction/easy">/home/subtraction/easy</button>
+        <button data-route="/home/subtraction/medium">/home/subtraction/medium</button>
+        <button data-route="/home/subtraction/hard">/home/subtraction/hard</button>
+        <button data-route="/home/multiplication">/home/multiplication</button>
+        <button data-route="/home/multiplication/easy">/home/multiplication/easy</button>
+        <button data-route="/home/multiplication/medium">/home/multiplication/medium</button>
+        <button data-route="/home/multiplication/hard">/home/multiplication/hard</button>
+        <button data-route="/home/division">/home/division</button>
+        <button data-route="/home/division/easy">/home/division/easy</button>
+        <button data-route="/home/division/medium">/home/division/medium</button>
+        <button data-route="/home/division/hard">/home/division/hard</button>
+        <button data-route="/settings">Settings</button>
+        <button data-route="/settings/avatar">Settings / Avatar</button>
+        <button data-route="/settings/icons">Settings / Icons</button>
+        <button data-route="/settings/stats">Settings / Stats</button>
+      </nav>
+    </aside>
+
     <main>
       <!-- LOGIN SCREEN -->
       <section class="screen active" data-screen="/login">
         <div class="login-container">
           <!-- Section 1: Welcome -->
           <div class="welcome-section">
+            <h1>Hi there! 👋</h1>
             <h2>Welcome to Math Universe</h2>
           </div>
 
@@ -985,7 +970,7 @@
       <!-- HOME SCREEN -->
       <section class="screen" data-screen="/home">
         <div class="breadcrumb home-breadcrumb">
-          <span data-route="/home" class="breadcrumb-link breadcrumb-icon" style="font-family: var(--font-heading); color: #4a9fe8; font-size: 20px; font-weight: 700;">Math Universe</span>
+          <span data-route="/home" class="breadcrumb-link breadcrumb-icon"><img src="icons/home.svg" alt="home" style="width: 30px; height: 30px; vertical-align: middle;"></span>
           <span data-route="/settings" class="breadcrumb-link breadcrumb-icon"><img src="icons/setting.svg" alt="settings" style="width: 30px; height: 30px; vertical-align: middle;"></span>
         </div>
 
@@ -997,7 +982,7 @@
         </div>
 
         <div class="panel">
-          <h3>Choose a math adventure!</h3>
+          <h2>Choose a math adventure!</h2>
           <div class="grid columns-2">
             <div class="card">
               <strong>Addition <img src="icons/plus.svg" alt="plus" style="width: 24px; height: 24px; vertical-align: middle; display: inline-block;"></strong>
@@ -1035,28 +1020,24 @@
               <div class="grid columns-3">
                 <button class="action" data-route="/home/division/easy">Easy</button>
                 <button class="action" data-route="/home/division/medium">Medium</button>
-                <button class="action muted" data-route="/home/division/hard">Hard</button>
+                <button class="action muted" data-route="/home/division/hard">Hard (disabled)</button>
               </div>
             </div>
           </div>
-        </div>
-
-        <div class="footer">
-          © 2025 All rights reserved. This page is for private use only.
         </div>
       </section>
 
       <!-- ADDITION OVERVIEW -->
       <section class="screen" data-screen="/home/addition">
         <div class="breadcrumb home-breadcrumb">
-          <span data-route="/home" class="breadcrumb-link breadcrumb-icon" style="font-family: var(--font-heading); color: #4a9fe8; font-size: 20px; font-weight: 700;">Math Universe</span>
+          <span data-route="/home" class="breadcrumb-link breadcrumb-icon"><img src="icons/home.svg" alt="home" style="width: 30px; height: 30px; vertical-align: middle;"></span>
           <span data-route="/settings" class="breadcrumb-link breadcrumb-icon"><img src="icons/setting.svg" alt="settings" style="width: 30px; height: 30px; vertical-align: middle;"></span>
         </div>
         <div class="panel">
           <h2>Addition Levels</h2>
           <ul class="list">
             <li>Easy: a + b ≤ 10, a and b ∈ [5, 9]</li>
-            <li>Medium: a + b ≤ 30, a ∈ [5, 14], b ∈ [5, 15]</li>
+            <li>Medium: a + b ≤ 15</li>
             <li>Hard: a + b ≤ 100</li>
           </ul>
           <div class="grid columns-3" style="margin-top: var(--space-lg);">
@@ -1065,86 +1046,77 @@
             <button class="btn btn-secondary" data-route="/home/addition/hard">Start Hard</button>
           </div>
         </div>
-        <div class="footer">
-          © 2025 All rights reserved. This page is for private use only.
-        </div>
       </section>
 
       <!-- ADDITION EASY -->
       <section class="screen" data-screen="/home/addition/easy">
         <div class="breadcrumb home-breadcrumb">
-          <span data-route="/home" class="breadcrumb-link breadcrumb-icon" style="font-family: var(--font-heading); color: #4a9fe8; font-size: 20px; font-weight: 700;">Math Universe</span>
+          <span data-route="/home" class="breadcrumb-link breadcrumb-icon"><img src="icons/home.svg" alt="home" style="width: 30px; height: 30px; vertical-align: middle;"></span>
           <span data-route="/settings" class="breadcrumb-link breadcrumb-icon"><img src="icons/setting.svg" alt="settings" style="width: 30px; height: 30px; vertical-align: middle;"></span>
         </div>
 
         <div class="header-bar exercise-header">
           <div class="avatar-placeholder">Avatar</div>
           <div class="progress-block">
-            <div style="font-size: 18px; font-weight: 600;">Question 1 of 10</div>
-            <div class="progress question-progress"><span style="width: 10%;"></span></div>
+            <div style="font-size: 18px; font-weight: 600;">Question 7 of 10</div>
+            <div class="progress question-progress"><span style="width: 60%;"></span></div>
           </div>
         </div>
 
         <div class="question-area">
-          <div class="problem-text">5 + 3 = ?</div>
+          <div class="problem-text">5 + 3 = ( )</div>
           <div class="problem-helpers">
             <div class="icon-group">
-              <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
-              <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
-              <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
-              <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
-              <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
+              <div class="helper-icon">🌟</div>
+              <div class="helper-icon">🌟</div>
+              <div class="helper-icon">🌟</div>
+              <div class="helper-icon">🌟</div>
+              <div class="helper-icon">🌟</div>
             </div>
             <span class="operator">+</span>
             <div class="icon-group">
-              <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
-              <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
-              <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
+              <div class="helper-icon">🌟</div>
+              <div class="helper-icon">🌟</div>
+              <div class="helper-icon">🌟</div>
             </div>
           </div>
         </div>
 
         <form>
-          <input type="number" placeholder="Type here" />
-          <button class="btn btn-primary">Submit Answer</button>
+          <input type="number" placeholder="Answer" />
+          <button class="btn btn-primary">Submit Answer 🚀</button>
         </form>
-        <div class="footer">
-          © 2025 All rights reserved. This page is for private use only.
-        </div>
       </section>
 
       <!-- ADDITION MEDIUM -->
       <section class="screen" data-screen="/home/addition/medium">
         <div class="breadcrumb home-breadcrumb">
-          <span data-route="/home" class="breadcrumb-link breadcrumb-icon" style="font-family: var(--font-heading); color: #4a9fe8; font-size: 20px; font-weight: 700;">Math Universe</span>
+          <span data-route="/home" class="breadcrumb-link breadcrumb-icon"><img src="icons/home.svg" alt="home" style="width: 30px; height: 30px; vertical-align: middle;"></span>
           <span data-route="/settings" class="breadcrumb-link breadcrumb-icon"><img src="icons/setting.svg" alt="settings" style="width: 30px; height: 30px; vertical-align: middle;"></span>
         </div>
 
         <div class="header-bar exercise-header">
           <div class="avatar-placeholder">Avatar</div>
           <div class="progress-block">
-            <div style="font-size: 18px; font-weight: 600;">Question 1 of 10</div>
-            <div class="progress question-progress"><span style="width: 10%;"></span></div>
+            <div style="font-size: 18px; font-weight: 600;">Question 4 of 10</div>
+            <div class="progress question-progress"><span style="width: 30%;"></span></div>
           </div>
         </div>
 
         <div class="question-area">
-          <div class="problem-text">9 + 5 = ?</div>
+          <div class="problem-text">9 + 5 = ( )</div>
         </div>
 
         <form>
-          <input type="number" placeholder="Type here" />
-          <button class="btn btn-primary">Submit Answer</button>
+          <input type="number" placeholder="Answer" />
+          <button class="btn btn-primary">Submit Answer 🚀</button>
         </form>
-        <div class="footer">
-          © 2025 All rights reserved. This page is for private use only.
-        </div>
       </section>
 
       <!-- ADDITION HARD -->
       <section class="screen" data-screen="/home/addition/hard">
         <div class="breadcrumb home-breadcrumb">
-          <span data-route="/home" class="breadcrumb-link breadcrumb-icon" style="font-family: var(--font-heading); color: #4a9fe8; font-size: 20px; font-weight: 700;">Math Universe</span>
+          <span data-route="/home" class="breadcrumb-link breadcrumb-icon"><img src="icons/home.svg" alt="home" style="width: 30px; height: 30px; vertical-align: middle;"></span>
           <span data-route="/settings" class="breadcrumb-link breadcrumb-icon"><img src="icons/setting.svg" alt="settings" style="width: 30px; height: 30px; vertical-align: middle;"></span>
         </div>
 
@@ -1157,23 +1129,20 @@
         </div>
 
         <div class="question-area">
-          <div class="problem-text">35 + 47 = ?</div>
+          <div class="problem-text">35 + 47 = ( )</div>
         </div>
 
         <form>
-          <input type="number" placeholder="Type here" />
-          <button class="btn btn-primary">Submit Answer</button>
+          <input type="number" placeholder="Answer" />
+          <button class="btn btn-primary">Submit Answer 🚀</button>
         </form>
-        <div class="footer">
-          © 2025 All rights reserved. This page is for private use only.
-        </div>
       </section>
 
       <!-- SUBTRACTION OVERVIEW -->
       <section class="screen" data-screen="/home/subtraction">
-        <div class="breadcrumb home-breadcrumb">
-          <span data-route="/home" class="breadcrumb-link breadcrumb-icon" style="font-family: var(--font-heading); color: #4a9fe8; font-size: 20px; font-weight: 700;">Math Universe</span>
-          <span data-route="/settings" class="breadcrumb-link breadcrumb-icon"><img src="icons/setting.svg" alt="settings" style="width: 30px; height: 30px; vertical-align: middle;"></span>
+        <div class="breadcrumb">
+          <span data-route="/home" class="breadcrumb-link">home</span>
+          <span>subtraction</span>
         </div>
         <div class="panel">
           <h2>Subtraction Levels</h2>
@@ -1188,120 +1157,111 @@
             <button class="btn btn-secondary" data-route="/home/subtraction/hard">Start Hard</button>
           </div>
         </div>
-        <div class="footer">
-          © 2025 All rights reserved. This page is for private use only.
-        </div>
       </section>
 
       <!-- SUBTRACTION EASY -->
       <section class="screen" data-screen="/home/subtraction/easy">
-        <div class="breadcrumb home-breadcrumb">
-          <span data-route="/home" class="breadcrumb-link breadcrumb-icon" style="font-family: var(--font-heading); color: #4a9fe8; font-size: 20px; font-weight: 700;">Math Universe</span>
-          <span data-route="/settings" class="breadcrumb-link breadcrumb-icon"><img src="icons/setting.svg" alt="settings" style="width: 30px; height: 30px; vertical-align: middle;"></span>
+        <div class="breadcrumb">
+          <span data-route="/home" class="breadcrumb-link">home</span>
+          <span data-route="/home/subtraction" class="breadcrumb-link">subtraction</span>
+          <span>easy</span>
         </div>
 
         <div class="header-bar exercise-header">
           <div class="avatar-placeholder">Avatar</div>
           <div class="progress-block">
-            <div style="font-size: 18px; font-weight: 600;">Question 1 of 10</div>
-            <div class="progress question-progress"><span style="width: 10%;"></span></div>
+            <div style="font-size: 18px; font-weight: 600;">Question 6 of 10</div>
+            <div class="progress question-progress"><span style="width: 50%;"></span></div>
           </div>
         </div>
 
         <div class="question-area">
-          <div class="problem-text">9 − 4 = ?</div>
+          <div class="problem-text">9 − 4 = ( )</div>
           <div class="problem-helpers">
             <div class="icon-group">
-              <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
-              <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
-              <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
-              <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
-              <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
-              <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
-              <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
-              <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
-              <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
+              <div class="helper-icon">🌟</div>
+              <div class="helper-icon">🌟</div>
+              <div class="helper-icon">🌟</div>
+              <div class="helper-icon">🌟</div>
+              <div class="helper-icon">🌟</div>
+              <div class="helper-icon">🌟</div>
+              <div class="helper-icon">🌟</div>
+              <div class="helper-icon">🌟</div>
+              <div class="helper-icon">🌟</div>
             </div>
             <span class="operator">−</span>
             <div class="icon-group">
-              <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
-              <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
-              <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
-              <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
+              <div class="helper-icon">🌟</div>
+              <div class="helper-icon">🌟</div>
+              <div class="helper-icon">🌟</div>
+              <div class="helper-icon">🌟</div>
             </div>
           </div>
         </div>
 
         <form>
-          <input type="number" placeholder="Type here" />
-          <button class="btn btn-primary">Submit Answer</button>
+          <input type="number" placeholder="Answer" />
+          <button class="btn btn-primary">Submit Answer 🚀</button>
         </form>
-        <div class="footer">
-          © 2025 All rights reserved. This page is for private use only.
-        </div>
       </section>
 
       <!-- SUBTRACTION MEDIUM -->
       <section class="screen" data-screen="/home/subtraction/medium">
-        <div class="breadcrumb home-breadcrumb">
-          <span data-route="/home" class="breadcrumb-link breadcrumb-icon" style="font-family: var(--font-heading); color: #4a9fe8; font-size: 20px; font-weight: 700;">Math Universe</span>
-          <span data-route="/settings" class="breadcrumb-link breadcrumb-icon"><img src="icons/setting.svg" alt="settings" style="width: 30px; height: 30px; vertical-align: middle;"></span>
+        <div class="breadcrumb">
+          <span data-route="/home" class="breadcrumb-link">home</span>
+          <span data-route="/home/subtraction" class="breadcrumb-link">subtraction</span>
+          <span>medium</span>
         </div>
 
         <div class="header-bar exercise-header">
           <div class="avatar-placeholder">Avatar</div>
           <div class="progress-block">
-            <div style="font-size: 18px; font-weight: 600;">Question 1 of 10</div>
-            <div class="progress question-progress"><span style="width: 10%;"></span></div>
+            <div style="font-size: 18px; font-weight: 600;">Question 3 of 10</div>
+            <div class="progress question-progress"><span style="width: 30%;"></span></div>
           </div>
         </div>
 
         <div class="question-area">
-          <div class="problem-text">40 − 18 = ?</div>
+          <div class="problem-text">40 − 18 = ( )</div>
         </div>
 
         <form>
-          <input type="number" placeholder="Type here" />
-          <button class="btn btn-primary">Submit Answer</button>
+          <input type="number" placeholder="Answer" />
+          <button class="btn btn-primary">Submit Answer 🚀</button>
         </form>
-        <div class="footer">
-          © 2025 All rights reserved. This page is for private use only.
-        </div>
       </section>
 
       <!-- SUBTRACTION HARD -->
       <section class="screen" data-screen="/home/subtraction/hard">
-        <div class="breadcrumb home-breadcrumb">
-          <span data-route="/home" class="breadcrumb-link breadcrumb-icon" style="font-family: var(--font-heading); color: #4a9fe8; font-size: 20px; font-weight: 700;">Math Universe</span>
-          <span data-route="/settings" class="breadcrumb-link breadcrumb-icon"><img src="icons/setting.svg" alt="settings" style="width: 30px; height: 30px; vertical-align: middle;"></span>
+        <div class="breadcrumb">
+          <span data-route="/home" class="breadcrumb-link">home</span>
+          <span data-route="/home/subtraction" class="breadcrumb-link">subtraction</span>
+          <span>hard</span>
         </div>
 
         <div class="header-bar exercise-header">
           <div class="avatar-placeholder">Avatar</div>
           <div class="progress-block">
-            <div style="font-size: 18px; font-weight: 600;">Question 1 of 10</div>
-            <div class="progress question-progress"><span style="width: 10%;"></span></div>
+            <div style="font-size: 18px; font-weight: 600;">Question 2 of 10</div>
+            <div class="progress question-progress"><span style="width: 20%;"></span></div>
           </div>
         </div>
 
         <div class="question-area">
-          <div class="problem-text">60 − 20 − 15 = ?</div>
+          <div class="problem-text">60 − 20 − 15 = ( )</div>
         </div>
 
         <form>
-          <input type="number" placeholder="Type here" />
-          <button class="btn btn-primary">Submit Answer</button>
+          <input type="number" placeholder="Answer" />
+          <button class="btn btn-primary">Submit Answer 🚀</button>
         </form>
-        <div class="footer">
-          © 2025 All rights reserved. This page is for private use only.
-        </div>
       </section>
 
       <!-- MULTIPLICATION OVERVIEW -->
       <section class="screen" data-screen="/home/multiplication">
-        <div class="breadcrumb home-breadcrumb">
-          <span data-route="/home" class="breadcrumb-link breadcrumb-icon" style="font-family: var(--font-heading); color: #4a9fe8; font-size: 20px; font-weight: 700;">Math Universe</span>
-          <span data-route="/settings" class="breadcrumb-link breadcrumb-icon"><img src="icons/setting.svg" alt="settings" style="width: 30px; height: 30px; vertical-align: middle;"></span>
+        <div class="breadcrumb">
+          <span data-route="/home" class="breadcrumb-link">home</span>
+          <span>multiplication</span>
         </div>
         <div class="panel">
           <h2>Multiplication Levels</h2>
@@ -1316,112 +1276,104 @@
             <button class="btn btn-secondary" data-route="/home/multiplication/hard">Start Hard</button>
           </div>
         </div>
-        <div class="footer">
-          © 2025 All rights reserved. This page is for private use only.
-        </div>
       </section>
 
       <!-- MULTIPLICATION EASY -->
       <section class="screen" data-screen="/home/multiplication/easy">
-        <div class="breadcrumb home-breadcrumb">
-          <span data-route="/home" class="breadcrumb-link breadcrumb-icon" style="font-family: var(--font-heading); color: #4a9fe8; font-size: 20px; font-weight: 700;">Math Universe</span>
-          <span data-route="/settings" class="breadcrumb-link breadcrumb-icon"><img src="icons/setting.svg" alt="settings" style="width: 30px; height: 30px; vertical-align: middle;"></span>
+        <div class="breadcrumb">
+          <span data-route="/home" class="breadcrumb-link">home</span>
+          <span data-route="/home/multiplication" class="breadcrumb-link">multiplication</span>
+          <span>easy</span>
         </div>
 
         <div class="header-bar exercise-header">
           <div class="avatar-placeholder">Avatar</div>
           <div class="progress-block">
-            <div style="font-size: 18px; font-weight: 600;">Question 1 of 10</div>
-            <div class="progress question-progress"><span style="width: 10%;"></span></div>
+            <div style="font-size: 18px; font-weight: 600;">Question 5 of 10</div>
+            <div class="progress question-progress"><span style="width: 40%;"></span></div>
           </div>
         </div>
 
         <div class="question-area">
-          <div class="problem-text">2 × 3 = ?</div>
+          <div class="problem-text">2 × 3 = ( )</div>
           <div class="problem-helpers">
-            <div class="icon-group">
-              <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
-              <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
+            <div class="icon-group column">
+              <div class="helper-icon">🌟</div>
+              <div class="helper-icon">🌟</div>
+              <div class="helper-icon">🌟</div>
             </div>
             <span class="operator">×</span>
-            <div class="icon-group">
-              <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
-              <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
-              <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
+            <div class="icon-group column">
+              <div class="helper-icon">🌟</div>
+              <div class="helper-icon">🌟</div>
+              <div class="helper-icon">🌟</div>
             </div>
           </div>
         </div>
 
         <form>
-          <input type="number" placeholder="Type here" />
-          <button class="btn btn-primary">Submit Answer</button>
+          <input type="number" placeholder="Answer" />
+          <button class="btn btn-primary">Submit Answer 🚀</button>
         </form>
-        <div class="footer">
-          © 2025 All rights reserved. This page is for private use only.
-        </div>
       </section>
 
       <!-- MULTIPLICATION MEDIUM -->
       <section class="screen" data-screen="/home/multiplication/medium">
-        <div class="breadcrumb home-breadcrumb">
-          <span data-route="/home" class="breadcrumb-link breadcrumb-icon" style="font-family: var(--font-heading); color: #4a9fe8; font-size: 20px; font-weight: 700;">Math Universe</span>
-          <span data-route="/settings" class="breadcrumb-link breadcrumb-icon"><img src="icons/setting.svg" alt="settings" style="width: 30px; height: 30px; vertical-align: middle;"></span>
+        <div class="breadcrumb">
+          <span data-route="/home" class="breadcrumb-link">home</span>
+          <span data-route="/home/multiplication" class="breadcrumb-link">multiplication</span>
+          <span>medium</span>
         </div>
 
         <div class="header-bar exercise-header">
           <div class="avatar-placeholder">Avatar</div>
           <div class="progress-block">
-            <div style="font-size: 18px; font-weight: 600;">Question 1 of 10</div>
-            <div class="progress question-progress"><span style="width: 10%;"></span></div>
+            <div style="font-size: 18px; font-weight: 600;">Question 3 of 10</div>
+            <div class="progress question-progress"><span style="width: 30%;"></span></div>
           </div>
         </div>
 
         <div class="question-area">
-          <div class="problem-text">7 × 8 = ?</div>
+          <div class="problem-text">7 × 8 = ( )</div>
         </div>
 
         <form>
-          <input type="number" placeholder="Type here" />
-          <button class="btn btn-primary">Submit Answer</button>
+          <input type="number" placeholder="Answer" />
+          <button class="btn btn-primary">Submit Answer 🚀</button>
         </form>
-        <div class="footer">
-          © 2025 All rights reserved. This page is for private use only.
-        </div>
       </section>
 
       <!-- MULTIPLICATION HARD -->
       <section class="screen" data-screen="/home/multiplication/hard">
-        <div class="breadcrumb home-breadcrumb">
-          <span data-route="/home" class="breadcrumb-link breadcrumb-icon" style="font-family: var(--font-heading); color: #4a9fe8; font-size: 20px; font-weight: 700;">Math Universe</span>
-          <span data-route="/settings" class="breadcrumb-link breadcrumb-icon"><img src="icons/setting.svg" alt="settings" style="width: 30px; height: 30px; vertical-align: middle;"></span>
+        <div class="breadcrumb">
+          <span data-route="/home" class="breadcrumb-link">home</span>
+          <span data-route="/home/multiplication" class="breadcrumb-link">multiplication</span>
+          <span>hard</span>
         </div>
 
         <div class="header-bar exercise-header">
           <div class="avatar-placeholder">Avatar</div>
           <div class="progress-block">
-            <div style="font-size: 18px; font-weight: 600;">Question 1 of 10</div>
-            <div class="progress question-progress"><span style="width: 10%;"></span></div>
+            <div style="font-size: 18px; font-weight: 600;">Question 2 of 10</div>
+            <div class="progress question-progress"><span style="width: 20%;"></span></div>
           </div>
         </div>
 
         <div class="question-area">
-          <div class="problem-text">40 × 6 = ?</div>
+          <div class="problem-text">40 × 6 = ( )</div>
         </div>
 
         <form>
-          <input type="number" placeholder="Type here" />
-          <button class="btn btn-primary">Submit Answer</button>
+          <input type="number" placeholder="Answer" />
+          <button class="btn btn-primary">Submit Answer 🚀</button>
         </form>
-        <div class="footer">
-          © 2025 All rights reserved. This page is for private use only.
-        </div>
       </section>
 
       <!-- DIVISION OVERVIEW -->
       <section class="screen" data-screen="/home/division">
-        <div class="breadcrumb home-breadcrumb">
-          <span data-route="/home" class="breadcrumb-link breadcrumb-icon" style="font-family: var(--font-heading); color: #4a9fe8; font-size: 20px; font-weight: 700;">Math Universe</span>
-          <span data-route="/settings" class="breadcrumb-link breadcrumb-icon"><img src="icons/setting.svg" alt="settings" style="width: 30px; height: 30px; vertical-align: middle;"></span>
+        <div class="breadcrumb">
+          <span data-route="/home" class="breadcrumb-link">home</span>
+          <span>division</span>
         </div>
         <div class="panel">
           <h2>Division Levels</h2>
@@ -1433,109 +1385,101 @@
           <div class="grid columns-3" style="margin-top: var(--space-lg);">
             <button class="btn btn-success" data-route="/home/division/easy">Start Easy</button>
             <button class="btn btn-primary" data-route="/home/division/medium">Start Medium</button>
-            <button class="btn muted" data-route="/home/division/hard">Hard</button>
+            <button class="btn muted" data-route="/home/division/hard">Hard (disabled)</button>
           </div>
-        </div>
-        <div class="footer">
-          © 2025 All rights reserved. This page is for private use only.
         </div>
       </section>
 
       <!-- DIVISION EASY -->
       <section class="screen" data-screen="/home/division/easy">
-        <div class="breadcrumb home-breadcrumb">
-          <span data-route="/home" class="breadcrumb-link breadcrumb-icon" style="font-family: var(--font-heading); color: #4a9fe8; font-size: 20px; font-weight: 700;">Math Universe</span>
-          <span data-route="/settings" class="breadcrumb-link breadcrumb-icon"><img src="icons/setting.svg" alt="settings" style="width: 30px; height: 30px; vertical-align: middle;"></span>
+        <div class="breadcrumb">
+          <span data-route="/home" class="breadcrumb-link">home</span>
+          <span data-route="/home/division" class="breadcrumb-link">division</span>
+          <span>easy</span>
         </div>
 
         <div class="header-bar exercise-header">
           <div class="avatar-placeholder">Avatar</div>
           <div class="progress-block">
-            <div style="font-size: 18px; font-weight: 600;">Question 1 of 10</div>
-            <div class="progress question-progress"><span style="width: 10%;"></span></div>
+            <div style="font-size: 18px; font-weight: 600;">Question 9 of 10</div>
+            <div class="progress question-progress"><span style="width: 90%;"></span></div>
           </div>
         </div>
 
         <div class="question-area">
-          <div class="problem-text">24 ÷ 3 = ?</div>
+          <div class="problem-text">24 ÷ 3 = ( )</div>
           <div class="problem-helpers">
             <div class="icon-group">
-              <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
-              <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
-              <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
-              <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
-              <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
-              <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
-              <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
-              <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
+              <div class="helper-icon">🌟</div>
+              <div class="helper-icon">🌟</div>
+              <div class="helper-icon">🌟</div>
+              <div class="helper-icon">🌟</div>
+              <div class="helper-icon">🌟</div>
+              <div class="helper-icon">🌟</div>
+              <div class="helper-icon">🌟</div>
+              <div class="helper-icon">🌟</div>
             </div>
             <span class="operator">÷</span>
             <div class="icon-group">
-              <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
-              <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
-              <img src="icons/coins.svg" alt="helper" style="width: 48px; height: 48px;">
+              <div class="helper-icon">🌟</div>
+              <div class="helper-icon">🌟</div>
+              <div class="helper-icon">🌟</div>
             </div>
           </div>
         </div>
 
         <form>
-          <input type="number" placeholder="Type here" />
-          <button class="btn btn-primary">Submit Answer</button>
+          <input type="number" placeholder="Answer" />
+          <button class="btn btn-primary">Submit Answer 🚀</button>
         </form>
-        <div class="footer">
-          © 2025 All rights reserved. This page is for private use only.
-        </div>
       </section>
 
       <!-- DIVISION MEDIUM -->
       <section class="screen" data-screen="/home/division/medium">
-        <div class="breadcrumb home-breadcrumb">
-          <span data-route="/home" class="breadcrumb-link breadcrumb-icon" style="font-family: var(--font-heading); color: #4a9fe8; font-size: 20px; font-weight: 700;">Math Universe</span>
-          <span data-route="/settings" class="breadcrumb-link breadcrumb-icon"><img src="icons/setting.svg" alt="settings" style="width: 30px; height: 30px; vertical-align: middle;"></span>
+        <div class="breadcrumb">
+          <span data-route="/home" class="breadcrumb-link">home</span>
+          <span data-route="/home/division" class="breadcrumb-link">division</span>
+          <span>medium</span>
         </div>
 
         <div class="header-bar exercise-header">
           <div class="avatar-placeholder">Avatar</div>
           <div class="progress-block">
-            <div style="font-size: 18px; font-weight: 600;">Question 1 of 10</div>
-            <div class="progress question-progress"><span style="width: 10%;"></span></div>
+            <div style="font-size: 18px; font-weight: 600;">Question 6 of 10</div>
+            <div class="progress question-progress"><span style="width: 60%;"></span></div>
           </div>
         </div>
 
         <div class="question-area">
-          <div class="problem-text">72 ÷ 8 = ?</div>
+          <div class="problem-text">72 ÷ 8 = ( )</div>
         </div>
 
         <form>
-          <input type="number" placeholder="Type here" />
-          <button class="btn btn-primary">Submit Answer</button>
+          <input type="number" placeholder="Answer" />
+          <button class="btn btn-primary">Submit Answer 🚀</button>
         </form>
-        <div class="footer">
-          © 2025 All rights reserved. This page is for private use only.
-        </div>
       </section>
 
       <!-- DIVISION HARD (DISABLED) -->
       <section class="screen" data-screen="/home/division/hard">
-        <div class="breadcrumb home-breadcrumb">
-          <span data-route="/home" class="breadcrumb-link breadcrumb-icon" style="font-family: var(--font-heading); color: #4a9fe8; font-size: 20px; font-weight: 700;">Math Universe</span>
-          <span data-route="/settings" class="breadcrumb-link breadcrumb-icon"><img src="icons/setting.svg" alt="settings" style="width: 30px; height: 30px; vertical-align: middle;"></span>
+        <div class="breadcrumb">
+          <span data-route="/home" class="breadcrumb-link">home</span>
+          <span data-route="/home/division" class="breadcrumb-link">division</span>
+          <span>hard</span>
         </div>
 
         <div class="panel" style="text-align: center;">
           <h2>Division Hard</h2>
-          <p style="color: var(--text-secondary); margin: var(--space-lg) 0;">This route is reserved and remain disabled.</p>
-        </div>
-        <div class="footer">
-          © 2025 All rights reserved. This page is for private use only.
+          <p style="color: var(--text-secondary); margin: var(--space-lg) 0;">This route is reserved and remains disabled according to the PRD.</p>
+          <button class="btn btn-secondary" data-route="/home/division">Return to division levels</button>
         </div>
       </section>
 
       <!-- SETTINGS -->
       <section class="screen" data-screen="/settings">
-        <div class="breadcrumb home-breadcrumb">
-          <span data-route="/home" class="breadcrumb-link breadcrumb-icon" style="font-family: var(--font-heading); color: #4a9fe8; font-size: 20px; font-weight: 700;">Math Universe</span>
-          <span data-route="/settings" class="breadcrumb-link breadcrumb-icon"><img src="icons/setting.svg" alt="settings" style="width: 30px; height: 30px; vertical-align: middle;"></span>
+        <div class="breadcrumb">
+          <span data-route="/home" class="breadcrumb-link">home</span>
+          <span>settings</span>
         </div>
 
         <div class="panel">
@@ -1545,20 +1489,19 @@
           <div class="grid columns-3" style="margin-bottom: var(--space-lg);">
             <button class="btn btn-primary" data-route="/settings/avatar">Avatar library</button>
             <button class="btn btn-primary" data-route="/settings/icons">Helper icon library</button>
-            <button class="btn muted">My stats</button>
-            <a href="mailto:quan.stromberg@gmail.com?subject=Feedback for Math Universe" class="btn btn-primary" style="text-decoration: none; display: flex; align-items: center; justify-content: center;">Leave feedback</a>
+            <button class="btn btn-primary" data-route="/settings/stats">My stats</button>
           </div>
-        </div>
-        <div class="footer">
-          © 2025 All rights reserved. This page is for private use only.
+
+          <button class="btn btn-secondary" data-route="/home">Back to home</button>
         </div>
       </section>
 
       <!-- SETTINGS - AVATAR -->
       <section class="screen" data-screen="/settings/avatar">
-        <div class="breadcrumb home-breadcrumb">
-          <span data-route="/home" class="breadcrumb-link breadcrumb-icon" style="font-family: var(--font-heading); color: #4a9fe8; font-size: 20px; font-weight: 700;">Math Universe</span>
-          <span data-route="/settings" class="breadcrumb-link breadcrumb-icon"><img src="icons/setting.svg" alt="settings" style="width: 30px; height: 30px; vertical-align: middle;"></span>
+        <div class="breadcrumb">
+          <span data-route="/home" class="breadcrumb-link">home</span>
+          <span data-route="/settings" class="breadcrumb-link">settings</span>
+          <span>avatar</span>
         </div>
 
         <div class="panel">
@@ -1581,17 +1524,17 @@
               <button class="btn btn-secondary">Select Avatar</button>
             </div>
           </div>
-        </div>
-        <div class="footer">
-          © 2025 All rights reserved. This page is for private use only.
+
+          <button class="btn btn-secondary" data-route="/settings">Back to Settings</button>
         </div>
       </section>
 
       <!-- SETTINGS - ICONS -->
       <section class="screen" data-screen="/settings/icons">
-        <div class="breadcrumb home-breadcrumb">
-          <span data-route="/home" class="breadcrumb-link breadcrumb-icon" style="font-family: var(--font-heading); color: #4a9fe8; font-size: 20px; font-weight: 700;">Math Universe</span>
-          <span data-route="/settings" class="breadcrumb-link breadcrumb-icon"><img src="icons/setting.svg" alt="settings" style="width: 30px; height: 30px; vertical-align: middle;"></span>
+        <div class="breadcrumb">
+          <span data-route="/home" class="breadcrumb-link">home</span>
+          <span data-route="/settings" class="breadcrumb-link">settings</span>
+          <span>icons</span>
         </div>
 
         <div class="panel">
@@ -1601,42 +1544,42 @@
           <div class="grid columns-3" style="margin-bottom: var(--space-lg);">
             <div class="card" style="align-items: center;">
               <div class="helper-icons">
-                <img src="icons/coins.svg" alt="coins" style="width: 48px; height: 48px;">
-                <img src="icons/coins.svg" alt="coins" style="width: 48px; height: 48px;">
-                <img src="icons/coins.svg" alt="coins" style="width: 48px; height: 48px;">
-              </div>
-              <button class="btn btn-success">Selected ✓</button>
-            </div>
-
-            <div class="card" style="align-items: center;">
-              <div class="helper-icons">
-                <img src="icons/honey.svg" alt="honey" style="width: 48px; height: 48px;">
-                <img src="icons/honey.svg" alt="honey" style="width: 48px; height: 48px;">
-                <img src="icons/honey.svg" alt="honey" style="width: 48px; height: 48px;">
+                <div class="helper-icon">🪙</div>
+                <div class="helper-icon">🪙</div>
+                <div class="helper-icon">🪙</div>
               </div>
               <button class="btn btn-primary">Use set</button>
             </div>
 
             <div class="card" style="align-items: center;">
               <div class="helper-icons">
-                <img src="icons/tnt.svg" alt="tnt" style="width: 48px; height: 48px;">
-                <img src="icons/tnt.svg" alt="tnt" style="width: 48px; height: 48px;">
-                <img src="icons/tnt.svg" alt="tnt" style="width: 48px; height: 48px;">
+                <div class="helper-icon">🌟</div>
+                <div class="helper-icon">🌟</div>
+                <div class="helper-icon">🌟</div>
+              </div>
+              <button class="btn btn-primary">Use set</button>
+            </div>
+
+            <div class="card" style="align-items: center;">
+              <div class="helper-icons">
+                <div class="helper-icon">💎</div>
+                <div class="helper-icon">💎</div>
+                <div class="helper-icon">💎</div>
               </div>
               <button class="btn btn-primary">Use set</button>
             </div>
           </div>
-        </div>
-        <div class="footer">
-          © 2025 All rights reserved. This page is for private use only.
+
+          <button class="btn btn-secondary" data-route="/settings">Back to Settings</button>
         </div>
       </section>
 
       <!-- SETTINGS - STATS -->
       <section class="screen" data-screen="/settings/stats">
-        <div class="breadcrumb home-breadcrumb">
-          <span data-route="/home" class="breadcrumb-link breadcrumb-icon" style="font-family: var(--font-heading); color: #4a9fe8; font-size: 20px; font-weight: 700;">Math Universe</span>
-          <span data-route="/settings" class="breadcrumb-link breadcrumb-icon"><img src="icons/setting.svg" alt="settings" style="width: 30px; height: 30px; vertical-align: middle;"></span>
+        <div class="breadcrumb">
+          <span data-route="/home" class="breadcrumb-link">home</span>
+          <span data-route="/settings" class="breadcrumb-link">settings</span>
+          <span>stats</span>
         </div>
 
         <div class="panel">
@@ -1665,9 +1608,8 @@
           </div>
 
           <p style="font-size: 12px; color: var(--text-muted); margin-bottom: var(--space-lg);">Stats follow the rule of 10 questions per completed level.</p>
-        </div>
-        <div class="footer">
-          © 2025 All rights reserved. This page is for private use only.
+
+          <button class="btn btn-secondary" data-route="/settings">Back to Settings</button>
         </div>
       </section>
     </main>
@@ -1697,9 +1639,9 @@
 
       function generateAdditionMedium() {
         const validPairs = [];
-        for (let a = 5; a <= 14; a++) {
-          for (let b = 5; b <= 15; b++) {
-            if (a + b <= 30) validPairs.push([a, b]);
+        for (let a = 1; a <= 14; a++) {
+          for (let b = 1; b <= 14; b++) {
+            if (a + b <= 15) validPairs.push([a, b]);
           }
         }
         return shuffleAndCreate(validPairs, '+');
@@ -1859,31 +1801,11 @@
       // ========== AVATAR STATE ==========
       let selectedAvatar = 'images/roblox.png';
       let userName = '';
-      let selectedHelperIcon = 'icons/coins.svg';
-
-      // ========== PRELOAD CELEBRATION AUDIO ==========
-      const celebrationAudio = new Audio('sounds/Tada.mp3');
-      celebrationAudio.preload = 'auto';
-      celebrationAudio.volume = 0.6;
-
-      const completionAudio = new Audio('sounds/brass-horn.mp3');
-      completionAudio.preload = 'auto';
-      completionAudio.volume = 0.6;
 
       function updateAllAvatars() {
         const avatarElements = document.querySelectorAll('.avatar-placeholder');
         avatarElements.forEach(avatar => {
           avatar.innerHTML = `<img src="${selectedAvatar}" alt="Avatar" style="width: 100%; height: 100%; object-fit: contain;">`;
-        });
-      }
-
-      function updateAllHelperIcons() {
-        const helperIconContainers = document.querySelectorAll('.problem-helpers');
-        helperIconContainers.forEach(container => {
-          const icons = container.querySelectorAll('img');
-          icons.forEach(icon => {
-            icon.src = selectedHelperIcon;
-          });
         });
       }
 
@@ -1902,15 +1824,6 @@
           if (avatarPath) {
             selectedAvatar = avatarPath;
 
-            // Set corresponding helper icon based on avatar
-            if (avatarPath.includes('roblox')) {
-              selectedHelperIcon = 'icons/coins.svg';
-            } else if (avatarPath.includes('minecraft')) {
-              selectedHelperIcon = 'icons/tnt.svg';
-            } else if (avatarPath.includes('Bamse')) {
-              selectedHelperIcon = 'icons/honey.svg';
-            }
-
             // Update selection state
             const allCards = document.querySelectorAll('#intro-avatar-selection .avatar-card');
             allCards.forEach(c => c.classList.remove('selected'));
@@ -1927,47 +1840,6 @@
         updateAllAvatars();
         showScreen('/home');
       });
-
-      // ========== CELEBRATION CONFETTI ==========
-      function showCelebration(message = 'Half way to go!', audio = celebrationAudio, duration = 2500) {
-        const overlay = document.createElement('div');
-        overlay.className = 'celebration-overlay';
-
-        const text = document.createElement('h2');
-        text.className = 'celebration-text';
-        text.textContent = message;
-        overlay.appendChild(text);
-
-        const colors = ['#FF5733', '#FFD700', '#6A5ACD', '#00FA9A', '#FF69B4', '#00BFFF'];
-        const confettiCount = 80;
-
-        // Get overlay dimensions after adding text
-        document.body.appendChild(overlay);
-
-        for (let i = 0; i < confettiCount; i++) {
-          const confetti = document.createElement('div');
-          confetti.classList.add('confetti');
-          confetti.style.position = 'absolute';
-          confetti.style.left = Math.random() * 100 + '%';
-          confetti.style.top = Math.random() * -30 + 'px';
-          confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-          confetti.style.width = confetti.style.height = Math.random() * 8 + 4 + 'px';
-          confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
-          confetti.style.animationDelay = Math.random() * 0.5 + 's';
-          overlay.appendChild(confetti);
-        }
-
-        // Play preloaded sound
-        audio.currentTime = 0; // Reset to start
-        audio.play().catch(() => {
-          // Silently fail if audio doesn't play
-        });
-
-        // Remove after specified duration
-        setTimeout(() => {
-          overlay.remove();
-        }, duration);
-      }
 
       // ========== CUSTOM MODAL ==========
       function showCustomModal(message) {
@@ -1996,12 +1868,7 @@
         screens.forEach((screen) => {
           screen.classList.toggle('active', screen.dataset.screen === route);
         });
-        if (routeLabel) {
-          routeLabel.textContent = 'Current: ' + route;
-        }
-
-        // Scroll to top when changing screens
-        window.scrollTo(0, 0);
+        routeLabel.textContent = 'Current: ' + route;
 
         updateAllAvatars();
 
@@ -2010,38 +1877,10 @@
           updateUserName();
         }
 
-        // Update icon selection UI when navigating to icons page
-        if (route === '/settings/icons') {
-          updateIconSelectionUI();
-        }
-
         const generator = getGenerator(route);
         if (generator) {
           initExercise(route, generator);
         }
-      }
-
-      function updateIconSelectionUI() {
-        const iconScreen = document.querySelector('[data-screen="/settings/icons"]');
-        if (!iconScreen) return;
-
-        const allButtons = iconScreen.querySelectorAll('.card button');
-        const allCards = iconScreen.querySelectorAll('.card');
-
-        allCards.forEach((card, index) => {
-          const firstIcon = card.querySelector('.helper-icons img');
-          const button = card.querySelector('button');
-
-          if (firstIcon && button) {
-            if (firstIcon.getAttribute('src') === selectedHelperIcon) {
-              button.textContent = 'Selected ✓';
-              button.className = 'btn btn-success';
-            } else {
-              button.textContent = 'Use set';
-              button.className = 'btn btn-primary';
-            }
-          }
-        });
       }
 
       function initExercise(route, generator) {
@@ -2066,9 +1905,9 @@
         if (questionArea) {
           const problemText = questionArea.querySelector('.problem-text');
           if (problemText) {
-            problemText.textContent = isComplete ? `🎉 All questions finished!` : `${currentQ.q} = ?`;
+            problemText.textContent = isComplete ? `🎉 All questions finished!` : `${currentQ.q} = ( )`;
           } else {
-            questionArea.textContent = isComplete ? `🎉 All questions finished!` : `${currentQ.q} = ?`;
+            questionArea.textContent = isComplete ? `🎉 All questions finished!` : `${currentQ.q} = ( )`;
           }
 
           const problemHelpers = questionArea.querySelector('.problem-helpers');
@@ -2110,7 +1949,7 @@
 
               const startOverBtn = document.createElement('button');
               startOverBtn.className = 'btn btn-secondary';
-              startOverBtn.textContent = 'Try it again';
+              startOverBtn.textContent = 'Start Over';
               startOverBtn.onclick = () => {
                 initExercise(route, getGenerator(route));
               };
@@ -2155,12 +1994,6 @@
 
         const a = parseInt(numbers[0]);
         const b = parseInt(numbers[1]);
-
-        // Only show helper icons if a <= 25
-        if (a > 25) {
-          container.style.display = 'none';
-          return;
-        }
         const operator = questionText.includes('+') ? '+' :
                         questionText.includes('−') ? '−' :
                         questionText.includes('×') ? '×' :
@@ -2169,12 +2002,11 @@
         container.innerHTML = '';
 
         const iconGroup1 = document.createElement('div');
-        iconGroup1.className = 'icon-group';
+        iconGroup1.className = operator === '×' ? 'icon-group column' : 'icon-group';
         for (let i = 0; i < a; i++) {
-          const icon = document.createElement('img');
-          icon.src = selectedHelperIcon;
-          icon.alt = 'helper';
-          icon.style.cssText = 'width: 48px; height: 48px;';
+          const icon = document.createElement('div');
+          icon.className = 'helper-icon';
+          icon.textContent = '🌟';
           iconGroup1.appendChild(icon);
         }
         container.appendChild(iconGroup1);
@@ -2185,12 +2017,11 @@
         container.appendChild(operatorSpan);
 
         const iconGroup2 = document.createElement('div');
-        iconGroup2.className = 'icon-group';
+        iconGroup2.className = operator === '×' ? 'icon-group column' : 'icon-group';
         for (let i = 0; i < b; i++) {
-          const icon = document.createElement('img');
-          icon.src = selectedHelperIcon;
-          icon.alt = 'helper';
-          icon.style.cssText = 'width: 48px; height: 48px;';
+          const icon = document.createElement('div');
+          icon.className = 'helper-icon';
+          icon.textContent = '🌟';
           iconGroup2.appendChild(icon);
         }
         container.appendChild(iconGroup2);
@@ -2201,10 +2032,9 @@
           const totalGroup = document.createElement('div');
           totalGroup.className = 'icon-group';
           for (let i = 0; i < a; i++) {
-            const icon = document.createElement('img');
-            icon.src = selectedHelperIcon;
-            icon.alt = 'helper';
-            icon.style.cssText = 'width: 48px; height: 48px;';
+            const icon = document.createElement('div');
+            icon.className = 'helper-icon';
+            icon.textContent = '🌟';
             totalGroup.appendChild(icon);
           }
           container.appendChild(totalGroup);
@@ -2217,10 +2047,9 @@
           const groupSizeGroup = document.createElement('div');
           groupSizeGroup.className = 'icon-group';
           for (let i = 0; i < b; i++) {
-            const icon = document.createElement('img');
-            icon.src = selectedHelperIcon;
-            icon.alt = 'helper';
-            icon.style.cssText = 'width: 48px; height: 48px;';
+            const icon = document.createElement('div');
+            icon.className = 'helper-icon';
+            icon.textContent = '🌟';
             groupSizeGroup.appendChild(icon);
           }
           container.appendChild(groupSizeGroup);
@@ -2264,20 +2093,9 @@
 
           if (currentIndex === 9) {
             setTimeout(() => {
-              showCelebration('Amazing!\nYou finished all questions!', completionAudio, 3000);
-              setTimeout(() => {
-                currentExercise.currentIndex = 10;
-                updateExerciseDisplay(route);
-              }, 3000);
-            }, 600);
-          } else if (currentIndex === 4) {
-            // Show celebration after question 5
-            setTimeout(() => {
-              showCelebration();
-              setTimeout(() => {
-                currentExercise.currentIndex++;
-                updateExerciseDisplay(route);
-              }, 2500);
+              showCustomModal(`Well done! You got ${currentExercise.score} out of 10 correct!`);
+              currentExercise.currentIndex = 10;
+              updateExerciseDisplay(route);
             }, 600);
           } else {
             setTimeout(() => {
@@ -2286,7 +2104,7 @@
             }, 600);
           }
         } else {
-          showCustomModal('Oops, try it again!');
+          showCustomModal('Try again!');
           input.value = '';
         }
       });
@@ -2326,30 +2144,6 @@
               image.style.border = 'none';
             });
             img.style.border = '3px solid var(--primary-blue)';
-          }
-        }
-      });
-
-      // ========== HELPER ICON SELECTION ==========
-      document.addEventListener('click', (e) => {
-        if (e.target.matches('.card button') && e.target.closest('[data-screen="/settings/icons"]')) {
-          const card = e.target.closest('.card');
-          const firstIcon = card.querySelector('.helper-icons img');
-
-          if (firstIcon && firstIcon.src) {
-            selectedHelperIcon = firstIcon.getAttribute('src');
-
-            const iconScreen = document.querySelector('[data-screen="/settings/icons"]');
-            const allButtons = iconScreen.querySelectorAll('.card button');
-            allButtons.forEach(btn => {
-              btn.textContent = 'Use set';
-              btn.className = 'btn btn-primary';
-            });
-
-            e.target.textContent = 'Selected ✓';
-            e.target.className = 'btn btn-success';
-
-            updateAllHelperIcons();
           }
         }
       });
