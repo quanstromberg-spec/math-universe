@@ -851,36 +851,29 @@
         font-size: 18px;
       }
 
-      .celebration-overlay {
-        padding: 100px 20px;
-        width: 90%;
-        max-width: 400px;
-      }
-
       .celebration-text {
-        font-size: 14px;
+        font-size: 16px;
       }
     }
 
     /* ========== CELEBRATION CONFETTI ========== */
     .celebration-overlay {
       position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      padding: 100px 120px;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
       z-index: 9999;
       pointer-events: none;
       overflow: hidden;
-      background-color: white;
-      border-radius: 8px;
+      background-color: rgba(255, 255, 255, 0.95);
     }
 
     .celebration-text {
-      font-size: 18px;
+      font-size: 36px;
       color: #ff7b00;
       text-shadow: 2px 2px 10px rgba(0,0,0,0.1);
       opacity: 0;
@@ -1035,7 +1028,7 @@
               <div class="grid columns-3">
                 <button class="action" data-route="/home/division/easy">Easy</button>
                 <button class="action" data-route="/home/division/medium">Medium</button>
-                <button class="action muted" data-route="/home/division/hard">Hard</button>
+                <button class="action" data-route="/home/division/hard">Hard</button>
               </div>
             </div>
           </div>
@@ -1428,12 +1421,12 @@
           <ul class="list">
             <li>Easy: a ÷ b, a from 9×9 multiplication table, b ∈ [2, 4]</li>
             <li>Medium: a ÷ b, a from 9×9 multiplication table, b ∈ [6, 9]</li>
-            <li>Hard: Not available (route retained, disabled)</li>
+            <li>Hard: b ÷ a, b ≤ 100, a ∈ [11, 20]</li>
           </ul>
           <div class="grid columns-3" style="margin-top: var(--space-lg);">
             <button class="btn btn-success" data-route="/home/division/easy">Start Easy</button>
             <button class="btn btn-primary" data-route="/home/division/medium">Start Medium</button>
-            <button class="btn muted" data-route="/home/division/hard">Hard</button>
+            <button class="btn btn-primary" data-route="/home/division/hard">Start Hard</button>
           </div>
         </div>
         <div class="footer">
@@ -1515,17 +1508,29 @@
         </div>
       </section>
 
-      <!-- DIVISION HARD (DISABLED) -->
+      <!-- DIVISION HARD -->
       <section class="screen" data-screen="/home/division/hard">
         <div class="breadcrumb home-breadcrumb">
           <span data-route="/home" class="breadcrumb-link breadcrumb-icon" style="font-family: var(--font-heading); color: #4a9fe8; font-size: 20px; font-weight: 700;">Math Universe</span>
           <span data-route="/settings" class="breadcrumb-link breadcrumb-icon"><img src="icons/setting.svg" alt="settings" style="width: 30px; height: 30px; vertical-align: middle;"></span>
         </div>
 
-        <div class="panel" style="text-align: center;">
-          <h2>Division Hard</h2>
-          <p style="color: var(--text-secondary); margin: var(--space-lg) 0;">This route is reserved and remain disabled.</p>
+        <div class="header-bar exercise-header">
+          <div class="avatar-placeholder">Avatar</div>
+          <div class="progress-block">
+            <div style="font-size: 18px; font-weight: 600;">Question 1 of 10</div>
+            <div class="progress question-progress"><span style="width: 10%;"></span></div>
+          </div>
         </div>
+
+        <div class="question-area">
+          <div class="problem-text">88 ÷ 11 = ?</div>
+        </div>
+
+        <form>
+          <input type="number" placeholder="Type here" />
+          <button class="btn btn-primary">Submit Answer</button>
+        </form>
         <div class="footer">
           © 2025 All rights reserved. This page is for private use only.
         </div>
@@ -1545,7 +1550,8 @@
           <div class="grid columns-3" style="margin-bottom: var(--space-lg);">
             <button class="btn btn-primary" data-route="/settings/avatar">Avatar library</button>
             <button class="btn btn-primary" data-route="/settings/icons">Helper icon library</button>
-            <button class="btn muted">My stats</button>
+            <button class="btn muted" style="display: none;">My stats</button>
+            <a href="https://buymeacoffee.com/moonlight0121" target="_blank" class="btn btn-primary" style="text-decoration: none; display: flex; align-items: center; justify-content: center; background-color: #F9703E; border-color: #F9703E;">Buy me a coffee☕️</a>
             <a href="mailto:quan.stromberg@gmail.com?subject=Feedback for Math Universe" class="btn btn-primary" style="text-decoration: none; display: flex; align-items: center; justify-content: center;">Leave feedback</a>
           </div>
         </div>
@@ -1780,15 +1786,13 @@
 
       // Division generators
       function generateDivisionEasy() {
-        const multTable = getMultiplicationTable();
         const questions = [];
         for (let i = 0; i < 10; i++) {
-          const b = randomInt(2, 4);
-          let a;
-          do {
-            a = multTable[randomInt(0, multTable.length - 1)];
-          } while (a % b !== 0);
-          questions.push({ q: `${a} ÷ ${b}`, answer: a / b });
+          const a = randomInt(2, 7); // 除数 2-7
+          const maxResult = Math.floor(49 / a); // 确保 b ≤ 49
+          const result = randomInt(2, maxResult); // 结果至少为2
+          const b = a * result; // 被除数 ≤ 49
+          questions.push({ q: `${b} ÷ ${a}`, answer: result });
         }
         return questions;
       }
@@ -1803,6 +1807,17 @@
             a = multTable[randomInt(0, multTable.length - 1)];
           } while (a % b !== 0);
           questions.push({ q: `${a} ÷ ${b}`, answer: a / b });
+        }
+        return questions;
+      }
+
+      function generateDivisionHard() {
+        const questions = [];
+        for (let i = 0; i < 10; i++) {
+          const a = randomInt(11, 20); // 除数 > 10
+          const result = randomInt(2, Math.floor(100 / a)); // 确保 b ≤ 100
+          const b = a * result; // 被除数
+          questions.push({ q: `${b} ÷ ${a}`, answer: result });
         }
         return questions;
       }
@@ -1844,6 +1859,7 @@
           '/home/multiplication/hard': generateMultiplicationHard,
           '/home/division/easy': generateDivisionEasy,
           '/home/division/medium': generateDivisionMedium,
+          '/home/division/hard': generateDivisionHard,
         };
         return generators[route] || null;
       }
@@ -1862,11 +1878,11 @@
       let selectedHelperIcon = 'icons/coins.svg';
 
       // ========== PRELOAD CELEBRATION AUDIO ==========
-      const celebrationAudio = new Audio('sounds/Tada.mp3');
+      const celebrationAudio = new Audio('sounds/brass-horn.mp3');
       celebrationAudio.preload = 'auto';
       celebrationAudio.volume = 0.6;
 
-      const completionAudio = new Audio('sounds/brass-horn.mp3');
+      const completionAudio = new Audio('sounds/woohoo.mp3');
       completionAudio.preload = 'auto';
       completionAudio.volume = 0.6;
 
@@ -1929,7 +1945,7 @@
       });
 
       // ========== CELEBRATION CONFETTI ==========
-      function showCelebration(message = 'Half way to go!', audio = celebrationAudio, duration = 2500) {
+      function showCelebration(message = '🎉 You are awesome!\nKeep on going! 🎉', audio = celebrationAudio, duration = 2500) {
         const overlay = document.createElement('div');
         overlay.className = 'celebration-overlay';
 
@@ -1939,7 +1955,7 @@
         overlay.appendChild(text);
 
         const colors = ['#FF5733', '#FFD700', '#6A5ACD', '#00FA9A', '#FF69B4', '#00BFFF'];
-        const confettiCount = 80;
+        const confettiCount = 150;
 
         // Get overlay dimensions after adding text
         document.body.appendChild(overlay);
@@ -1949,17 +1965,18 @@
           confetti.classList.add('confetti');
           confetti.style.position = 'absolute';
           confetti.style.left = Math.random() * 100 + '%';
-          confetti.style.top = Math.random() * -30 + 'px';
+          confetti.style.top = Math.random() * -50 + 'px';
           confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-          confetti.style.width = confetti.style.height = Math.random() * 8 + 4 + 'px';
-          confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
-          confetti.style.animationDelay = Math.random() * 0.5 + 's';
+          confetti.style.width = confetti.style.height = Math.random() * 12 + 6 + 'px';
+          confetti.style.animationDuration = (Math.random() * 3 + 3) + 's';
+          confetti.style.animationDelay = Math.random() * 1 + 's';
           overlay.appendChild(confetti);
         }
 
         // Play preloaded sound
         audio.currentTime = 0; // Reset to start
-        audio.play().catch(() => {
+        audio.play().catch((error) => {
+          console.log('Audio playback failed:', error);
           // Silently fail if audio doesn't play
         });
 
@@ -2264,20 +2281,20 @@
 
           if (currentIndex === 9) {
             setTimeout(() => {
-              showCelebration('Amazing!\nYou finished all questions!', completionAudio, 3000);
+              showCelebration('🎉 Amazing!\nYou finished all questions! 🎉', completionAudio, 4000);
               setTimeout(() => {
                 currentExercise.currentIndex = 10;
                 updateExerciseDisplay(route);
-              }, 3000);
+              }, 4000);
             }, 600);
           } else if (currentIndex === 4) {
             // Show celebration after question 5
             setTimeout(() => {
-              showCelebration();
+              showCelebration('🎉 You are awesome!\nKeep on going! 🎉', celebrationAudio, 3000);
               setTimeout(() => {
                 currentExercise.currentIndex++;
                 updateExerciseDisplay(route);
-              }, 2500);
+              }, 3000);
             }, 600);
           } else {
             setTimeout(() => {
